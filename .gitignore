@@ -1,0 +1,97 @@
+# ================================
+# Python
+# ================================
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python build / distribution
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# ================================
+# Testing / Coverage
+# ================================
+
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# ================================
+# Jupyter Notebook
+# ================================
+
+.ipynb_checkpoints/
+
+# ================================
+# IDE / Editors
+# ================================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ================================
+# OS Generated Files
+# ================================
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# ================================
+# Logs
+# ================================
+
+*.log
+
+# ================================
+# Environment / Secrets
+# ================================
+
+.env
+.env.*
+!.env.example
+
+# ================================
+# Local Databases
+# ================================
+
+*.db
+*.sqlite
+*.sqlite3
+
+# ================================
+# Temporary Files
+# ================================
+
+*.tmp
+*.temp
+*.bak
+
+# ================================
+# Python profiling
+# ================================
+
+*.prof
+*.lprof
