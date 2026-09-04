@@ -1,3 +1,3 @@
-is_member = 'False'
-if is_member:
-print('Member')
+is_member = 20
+if is_member=20:
+    print('Member')
