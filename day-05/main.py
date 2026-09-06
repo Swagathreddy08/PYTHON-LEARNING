@@ -4,7 +4,7 @@ log=log.lower()
 words=log.split()
 len=len(log)
 err=0
-ser="payment"
+ser="payment service"
 c=0
 warn=0
 wo1=0
@@ -13,7 +13,7 @@ errorline=0
 warningline=0
 paymentline=0
 count=0
-for word in words:
+for word in words:  
     wo1+=1
     if "error" in word:
         err+=1
