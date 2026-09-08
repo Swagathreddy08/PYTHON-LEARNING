@@ -1,0 +1,16 @@
+tasks = ["study", "gym"]
+tasks.append("sleep")
+print(tasks)
+tasks.extend(["code", "read"])
+print(tasks)    
+names.insert(1, "Anu")
+print(names)
+items = ["pen", "book", "bag", "phone"]
+items.remove("book")
+print(items)
+last_item = items.pop()
+print(last_item)
+first_item = items.pop(0)
+print(first_item)
+items.clear()
+print(items)
