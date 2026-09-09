@@ -1,7 +1,8 @@
+import warnings
 shop = []
-total=0
-dup=False
 while True:
+ total=0
+ dup=False
  print("1. names")
  print("2. add")
  print("3. remove")
@@ -12,6 +13,7 @@ while True:
  choice = int(input("Choose: "))
  if choice == 1:
     print("the names of items in the shop are: \n")
+    shop.sort()
     for i in shop:
        print(f" {i} : {i[0]}") 
  elif choice == 2:
@@ -21,12 +23,14 @@ while True:
     entry=[item,quantity,prize]
     if len(shop) >0 :
        for i in shop:
-          if entry[0] not in i[0]:
+          if entry[0] == i[0]:
              dup=True
-        if dup:
+       if dup == False:
           shop.append(entry)
-        else:
-          print("cant add this item as ita=s already present")
+       else:
+          for i in shop:
+             if entry[0] == i[0]:
+                i[1]+=quantity
           
     else:
        shop.append(entry)
@@ -41,14 +45,21 @@ while True:
        if item in i[0]:
           print(f" the {item} is available in the shop")
  elif choice == 5:
+    sum=0
     for i in shop:
-       print(f"The count of the items in the shop are {len(shop)} and the total quantity of products are {sum(i[1])}")    
+       sum+=i[1]
+    print(f"The count of the items in the shop are {len(shop)} and the total quantity of products are {sum}")    
  elif choice == 6:
     for i in shop:
        val=i[1]*i[2]
-       val+=val
+       total+=val
     print("the total value of the store is :",total)
  elif choice == 7:
     break 
  else:
     print("Invalid choice")
+
+for i in shop:
+   if i[1]<5:
+      warnings.warn(f"the stalk is verry low for the product {i[0]}")
+
