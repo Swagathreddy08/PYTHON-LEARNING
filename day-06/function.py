@@ -3,6 +3,7 @@ tasks.append("sleep")
 print(tasks)
 tasks.extend(["code", "read"])
 print(tasks)    
+names = ["John", "Jane", "Doe"]
 names.insert(1, "Anu")
 print(names)
 items = ["pen", "book", "bag", "phone"]
