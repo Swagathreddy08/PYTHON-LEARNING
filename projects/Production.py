@@ -1,15 +1,25 @@
+def clasify(a):
+    if a==0:
+        return "HEALTHY"
+    elif a == 1:
+        return "WARNING"
+    else:
+        return "CRITICAL" 
+    
 errorline=warningline=infoline=count=0
 logs = """
 2026-09-10 09:00:01 payment-service INFO Payment request received
 2026-09-10 09:00:02 payment-service INFO Payment validated
 2026-09-10 09:00:03 payment-service ERROR Payment gateway timeout
 2026-09-10 09:00:04 auth-service INFO User authentication successful
-2026-09-10 09:00:05 order-service WARNING Order processing delayed
+2026-09-10 09:00:05 order-service error Order processing delayed
 2026-09-10 09:00:06 payment-service ERROR Payment retry failed
 2026-09-10 09:00:07 inventory-service INFO Stock updated
 2026-09-10 09:00:08 notification-service ERROR Email delivery failed
-2026-09-10 09:00:09 order-service INFO Order completed
+2026-09-10 09:00:09 order-service error Order completed
 """.lower()
+
+print("the basic format ")
 words=logs.split()
 len=len(logs)
 lines=logs.splitlines()
@@ -58,14 +68,79 @@ print(f'''
 e1=e2=e3=e4=e5=0
 
 for line in lines:
-    if "error" and "payment-service" in line :
+    if "payment-service error" in line :
         e1+=1
-    elif "error" and "auth-service" in line:
+    elif "auth-service error" in line:
         e2+=1
-    elif "error" and "order-service" in line:
+    elif "order-service error" in line:
         e3+=1
-    elif "error" and "inventory-service" in line:
+    elif "inventory-service error" in line:
         e4+=1
-    elif "error" and "notifition-service" in line:
+    elif "notifition-service error" in line:
         e5+=1
 test=max(e1,e2,e3,e4,e5)
+if test ==e1:
+    if test == e2:
+        print(f"both payment-service and auth-service are occurring for sametime ie {test}")
+    elif test == e3:
+        print(f"both payment-service and order-service are occurring for sametime ie {test}")
+    elif test == e4:
+        print(f"both payment-service and inventory-service are occurring for sametime ie {test}")
+    elif test == e5:
+        print(f"both payment-service and notification-service are occurring for sametime ie {test}")
+    else:
+        print(f"Most problematic service: payment-service error count is :{test}")
+elif test ==e2:
+    if test == e1:
+        print(f"both payment-service and auth-service are occurring for sametime ie {test}")
+    elif test == e3:
+        print(f"both auth-service and order-service are occurring for sametime ie {test}")
+    elif test == e4:
+        print(f"both auth-service and inventory-service are occurring for sametime ie {test}")
+    elif test == e5:
+        print(f"both auth-service and notification-service are occurring for sametime ie {test}")
+    else:
+        print(f"Most problematic service: auth-service error count is :{test}")
+elif test ==e3:
+    if test == e2:
+        print(f"both order-service and auth-service are occurring for sametime ie {test}")
+    elif test == e1:
+        print(f"both order-service and payment-service are occurring for sametime ie {test}")
+    elif test == e4:
+        print(f"both order-service and inventory-service are occurring for sametime ie {test}")
+    elif test == e5:
+        print(f"both order-service and notification-service are occurring for sametime ie {test}")
+    else:
+        print(f"Most problematic service: order-service error count is :{test}")
+elif test ==e4:
+    if test == e2:
+        print(f"both inventory-service and auth-service are occurring for sametime ie {test}")
+    elif test == e3:
+        print(f"both inventory-service and order-service are occurring for sametime ie {test}")
+    elif test == e1:
+        print(f"both payment-service and inventory-service are occurring for sametime ie {test}")
+    elif test == e5:
+        print(f"both inventory-service and notification-service are occurring for sametime ie {test}")
+    else:
+        print(f"Most problematic service: inventory-service error count is :{test}")
+elif test ==e5:
+    if test == e2:
+        print(f"both notification-service and auth-service are occurring for sametime ie {test}")
+    elif test == e3:
+        print(f"both notification-service and order-service are occurring for sametime ie {test}")
+    elif test == e4:
+        print(f"both notification-service and inventory-service are occurring for sametime ie {test}")
+    elif test == e1:
+        print(f"both notification-service and payment-service are occurring for sametime ie {test}")
+    else:
+        print(f"Most problematic service: notification-service error count is :{test}")
+
+print(f'''
+SERVICE HEALTH
+
+payment-service       : {clasify(e1)}
+auth-service          : {clasify(e2)}
+order-service         : {clasify(e3)}
+inventory-service     : {clasify(e4)}
+notification-service  : {clasify(e5)}
+''')
