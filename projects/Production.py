@@ -12,7 +12,7 @@ def basic_stats(logs):
     errorline=warningline=infoline=count=0
     print("the basic format ")
     words=logs.split()
-    len=len(logs)
+    lenth=len(logs)
     lines=logs.splitlines()
     for line in lines:
         if "error" in line:
@@ -26,7 +26,7 @@ def basic_stats(logs):
     print("Basic Statistics")
     print("************************************")
     print(f'''
-      The total character in the ord are : {len}
+      The total character in the ord are : {lenth}
       Total logs    :   {count}
       INFO          :   {infoline}
       WARNING       :   {warningline}
@@ -173,6 +173,12 @@ def critical(logs):
             if score>6:
                 print("Payment-service status : CRITICAL")
                 score=0
+            elif score>=1:
+                print("Payment-service : WARNING")
+                score=0
+            else:
+                print("Payment-service : Healthy")
+                score=0
         if "auth-service" in line:
             if "info" in line:
                 i+=1
@@ -181,8 +187,14 @@ def critical(logs):
             elif "error" in line:
                 e+=1
             score=(1*0)+(w*1)+(e*2)
-            if score>6:
+            if score>=6:
                 print("Auth-service status : CRITICAL")
+                score=0
+            elif score>=1:
+                print("Auth-service : WARNING")
+                score=0
+            else:
+                print("Auth-service : Healthy")
                 score=0
         if "order-service" in line:
                     if "info" in line:
@@ -195,6 +207,12 @@ def critical(logs):
                     if score>6:
                         print("order-service status : CRITICAL")
                         score=0
+                    elif score>=1:
+                        print("order-service : WARNING")
+                        score=0
+                    else:
+                        print("Order-service : Healthy")
+                        score=0
         if "inventory-service" in line:
                     if "info" in line:
                         i+=1
@@ -206,6 +224,12 @@ def critical(logs):
                     if score>6:
                         print("inventory-service status : CRITICAL")
                         score=0
+                    elif score>=1:
+                        print("Inventory-service : WARNING")
+                        score=0
+                    else:
+                        print("Inventory-service : Healthy")
+                        score=0
         if "notification-service" in line:
                     if "info" in line:
                         i+=1
@@ -216,6 +240,12 @@ def critical(logs):
                     score=(1*0)+(w*1)+(e*2)
                     if score>6:
                         print("notification-service status : CRITICAL") 
+                        score=0
+                    elif score>=1:
+                        print(" Notification-service : WARNING")
+                        score=0
+                    else:
+                        print("Notification-service : Healthy")
                         score=0       
 lo = """
 2026-09-10 09:00:01 payment-service INFO Payment request received
