@@ -1,3 +1,5 @@
+lists=[["EMPLOYE ID","NAME","EXPENCE CATEGORY","Climed Amount","Eligible AMT","STATUS"]]
+reject=[["EMPLOYE ID","NAME","EXPENCE CATEGORY","Climed amount","Reason"]]
 def expence(n):
     if n=="1":
         limit2=10000
@@ -22,10 +24,11 @@ def expence(n):
         exp_name="training/conferences"
     return exp_name,limit2
 
-report=input(" is it pre aproved by manager?:(yes/no) ")
-spent=int(input("ENTER THE SPENT AMOUNT"))
-limit=int(input("Enter the max limit aproved by the manager"))
-choice=int(input('''
+def submit():
+    report=input(" is it pre aproved by manager?:(yes/no) ")
+    spent=int(input("ENTER THE SPENT AMOUNT"))
+    limit=int(input("Enter the max limit aproved by the manager"))
+    choice=int(input('''
                      1)Hotel
                      2)flights
                      3)transpotation
@@ -34,87 +37,124 @@ choice=int(input('''
                      6)mobile expence
                      7)training conference
                      '''))
-exp_name,lim2=expence(choice)
-Day=input("Enter the day of expense: ")
-r=input("Do have receipt?:(yes/no) ")
-pr=input("Do you have a promotional code? (yes/no): ").lower()
-if pr=="yes":
-    promo_code=input("Enter the promotional code: ")
-    if promo_code=="DISCOUNT10":
-        discount_rate=0.10
-    elif promo_code=="DISCOUNT20":
-        discount_rate=0.20
-    elif promo_code=="DISCOUNT30":
-        discount_rate=0.30
+    exp_name,lim2=expence(choice)
+    Day=input("Enter the day of expense: ")
+    r=input("Do have receipt?:(yes/no) ")
+    pr=input("Do you have a promotional code? (yes/no): ").lower()
+    if pr=="yes":
+        promo_code=input("Enter the promotional code: ")
+        if promo_code=="DISCOUNT10":
+            discount_rate=0.10
+        elif promo_code=="DISCOUNT20":
+            discount_rate=0.20
+        elif promo_code=="DISCOUNT30":
+            discount_rate=0.30
+        else:
+            print("Invalid promotional code")
+            discount_rate=0
     else:
-        print("Invalid promotional code")
+        print("no promotional code")
         discount_rate=0
-else:
-    print("no promotional code")
-    discount_rate=0
-eid=int(input("Enter your eployee id : "))
-name=input("Enter the name of the emplyee : ")
-dept=int(input("enter the dept no"))
-limit=int(input("Enter the pre aproved expence amount: "))
-eligibility=min(limit,spent,lim2)
-def submit():
+    eid=int(input("Enter your eployee id : "))
+    name=input("Enter the name of the emplyee : ")
+    dept=int(input("enter the dept no"))
+    eligibility=min(limit,spent,lim2)
+
     if report=="yes":
         discount_amount = eligibility * discount_rate
         final_price = eligibility - discount_amount
         if r=="yes":
             if (spent<=limit and spent<=lim2):
                 print("Your expense is within the limit for pre-approved expenses. Reimbursement will be processed.")
+                status="approved"
+                l=[eid,name,exp_name,spent,spent,status]
+                lists.append(l)
             elif spent>limit and spent>lim2:
                 print(f'''You have exceeded the limit for {exp_name} expenses. +
             Reimbursement will be processed for the maximum limit of {eligibility}.
             contact your manager for further assistance.''')
+                status='partially aproved'
+                l=[eid,name,exp_name,spent,eligibility,status]
+                lists.append(l)
             elif spent>limit and spent<=lim2:
                 print(f'''You have exceeded the limit for pre-approved expenses.
             Reimbursement will be processed for the maximum limit of {eligibility}.
             contact your manager for further assistance.''')
+                status='partially aproved'
+                l=[eid,name,exp_name,spent,eligibility,status]
+                lists.append(l)
             else:
                 print(f'''Your expense is within the limit for pre-approved expenses. 
             Reimbursement will be processed for the amount of {spent}. because its
             not with in the limit of {lim2} for {exp_name} expenses.''')
+                status="partially aproved"
+                l=[eid,name,exp_name,spent,lim2,status]
+                lists.append(l)
         elif r=="no":
-            if spent<=limit and spent<=lim2:
-                print(f'''Your expense is within the limit for pre-approved expenses. 
-            but do not have a receipt.
-            Reimbursement will not be processed for the amount of {spent}.''')
-            elif spent>limit and spent>lim2: 
-                print(f'''You have exceeded the limit for {exp_name} expenses. 
-            Reimbursement will be processed for the maximum limit of {eligibility}.
-            contact your manager for further assistance.''')
-            elif spent>limit and spent<=lim2:
-                print(f'''You have exceeded the limit for pre-approved expenses.
-            Reimbursement will be processed for the maximum limit of {eligibility}.
-            contact your manager for further assistance.''')
-            else:
-                print(f'''Your expense is within the limit for pre-approved expenses. 
-            but do not have a receipt. 
-            Reimbursement will not be processed for the amount of {spent}.''')
+            reason="no proof of payment"
+            status="rejected"
+            l=[eid,name,exp_name,spent,0,status]
+            l2=[eid,name,exp_name,spent,reason]
+            lists.append(l)
+            reject.append(l2)
     else:
         print("Your expense is not pre-approved by the manager. Reimbursement will not be processed directly .")
-    job=input("enter your job title:  ")
-    if eid!="":
-        print("You are eligible to submit the expense report for reimbursement. Please seek approval from your manager before submitting.")
-        if spent<=200:
-            print("refund is not possible as the amount is less than 200")
-        else:
-            print("do you want to submit the expense report for reimbursement? (yes/no)")
-            submit=input()
-            if submit=="yes":
-                print("Expense report submitted for reimbursement. You will be notified once the reimbursement is processed.")
-                proof=input("do you have proof of expense? (yes/no) ")
-                if proof=="yes":
-                    eligibility,discount_amount,final_price=refund(lim2,spent,discount_rate)
-                    display(name, eid, dept, exp_name, spent, report, promo_code, discount_amount, final_price)
-                else:
-                    print("Expense report not submitted. so rejected")
+        reason="the expence is not pre approved"
+        status="rejected"
+        l=[eid,name,exp_name,spent,0,status]
+        l2=[eid,name,exp_name,spent,reason]
+        lists.append(l)
+        reject.append(l2)
+
+def view():
+    for i in lists:
+        print(i)
+
+def search():
+    id=int(input("Enter the Id to be searched"))
+    for i in lists:
+        if i[0] == id:
+            print(i)
+
+def rejected():
+    for i in reject:
+        print(i)
+
+def summary():
+    print("EXPENSE SUMMARY").center(30,"=")
+    print("\n")
+    app=0
+    par=0
+    re=0
+    for i in lists:
+        if i[-1] == 'approved':
+            app+=1
+        elif i[-1] == 'partially approved':
+            par+=1
+        elif i[-1] != 'rejected':
+            re+=i[-2]
+        cl+=i[-3]   
+    av=(cl/len(lists))
+    print(f'''
+
+Total Claims: {len(lists)}
+
+Approved Claims: {app}
+Partially Approved {par}
+Rejected Claims: {len(reject)}
+
+Total Amount Claimed: ₹{cl}
+Total Amount Reimbursed: ₹{re}
+
+Average Claim: ₹{av}''')
 
 
-
-
+def totalexp():
+    for i in lists:
+        if i[-1] !='rejected':
+            totalexpnce=i[-2]+totalexpnce
+    print(f"Total reimbursement payable: {totalexpnce}")
+    
 print('''
 ========================================
      PRODUCTION INCIDENT ANALYZER
