@@ -66,7 +66,7 @@ def submit():
         if r=="yes":
             if (spent<=limit and spent<=lim2):
                 print("Your expense is within the limit for pre-approved expenses. Reimbursement will be processed.")
-                status="approved"
+                status="aproved"
                 l=[eid,name,exp_name,spent,spent,status]
                 lists.append(l)
             elif spent>limit and spent>lim2:
@@ -99,7 +99,7 @@ def submit():
             reject.append(l2)
     else:
         print("Your expense is not pre-approved by the manager. Reimbursement will not be processed directly .")
-        reason="the expence is not pre approved"
+        reason="the expence is not pre aproved"
         status="rejected"
         l=[eid,name,exp_name,spent,0,status]
         l2=[eid,name,exp_name,spent,reason]
@@ -123,25 +123,23 @@ def rejected():
 def summary():
     print("EXPENSE SUMMARY").center(30,"=")
     print("\n")
-    app=0
-    par=0
-    re=0
+    app=par=re=cl=al=av=0
     for i in lists:
-        if i[-1] == 'approved':
+        if i[-1] == 'aproved':
             app+=1
-        elif i[-1] == 'partially approved':
+        elif i[-1] == 'partially aproved':
             par+=1
         elif i[-1] != 'rejected':
             re+=i[-2]
         cl+=i[-3]   
-    av=(cl/len(lists))
+    av=(cl/(len(lists)-1))
     print(f'''
 
-Total Claims: {len(lists)}
+Total Claims: {len(lists)-1}
 
 Approved Claims: {app}
 Partially Approved {par}
-Rejected Claims: {len(reject)}
+Rejected Claims: {len(reject)-1}
 
 Total Amount Claimed: ₹{cl}
 Total Amount Reimbursed: ₹{re}
@@ -150,6 +148,7 @@ Average Claim: ₹{av}''')
 
 
 def totalexp():
+    totalexpnce=0
     for i in lists:
         if i[-1] !='rejected':
             totalexpnce=i[-2]+totalexpnce
@@ -170,19 +169,19 @@ print('''
 while True:
     choice=input("enter your chice ")
     match choice:
-        case 1:
+        case "1":
             submit()
-        case 2:
+        case "2":
             view()
-        case 3:
+        case "3":
             search()
-        case 4:
+        case "4":
             summary()
-        case 5:
+        case "5":
             rejected()
-        case 6:
+        case "6":
             totalexp()
-        case 7:
+        case "7":
             break
         case _:  
             print("wrong input")
