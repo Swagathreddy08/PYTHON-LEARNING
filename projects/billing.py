@@ -22,13 +22,15 @@ def expence(n):
     elif n=="7":
         limit2=15000
         exp_name="training/conferences"
+    else:
+        print(" WRONG INPUT ")
     return exp_name,limit2
 
 def submit():
     report=input(" is it pre aproved by manager?:(yes/no) ")
     spent=int(input("ENTER THE SPENT AMOUNT"))
     limit=int(input("Enter the max limit aproved by the manager"))
-    choice=int(input('''
+    choice=input('''
                      1)Hotel
                      2)flights
                      3)transpotation
@@ -36,7 +38,7 @@ def submit():
                      5)office supplies
                      6)mobile expence
                      7)training conference
-                     '''))
+                     ''')
     exp_name,lim2=expence(choice)
     Day=input("Enter the day of expense: ")
     r=input("Do have receipt?:(yes/no) ")
@@ -59,7 +61,6 @@ def submit():
     name=input("Enter the name of the emplyee : ")
     dept=int(input("enter the dept no"))
     eligibility=min(limit,spent,lim2)
-
     if report=="yes":
         discount_amount = eligibility * discount_rate
         final_price = eligibility - discount_amount
@@ -67,21 +68,21 @@ def submit():
             if (spent<=limit and spent<=lim2):
                 print("Your expense is within the limit for pre-approved expenses. Reimbursement will be processed.")
                 status="aproved"
-                l=[eid,name,exp_name,spent,spent,status]
+                l=[eid,name,exp_name,spent,final_price,status]
                 lists.append(l)
             elif spent>limit and spent>lim2:
                 print(f'''You have exceeded the limit for {exp_name} expenses. +
             Reimbursement will be processed for the maximum limit of {eligibility}.
             contact your manager for further assistance.''')
                 status='partially aproved'
-                l=[eid,name,exp_name,spent,eligibility,status]
+                l=[eid,name,exp_name,spent,final_price,status]
                 lists.append(l)
             elif spent>limit and spent<=lim2:
                 print(f'''You have exceeded the limit for pre-approved expenses.
             Reimbursement will be processed for the maximum limit of {eligibility}.
             contact your manager for further assistance.''')
                 status='partially aproved'
-                l=[eid,name,exp_name,spent,eligibility,status]
+                l=[eid,name,exp_name,spent,final_price,status]
                 lists.append(l)
             else:
                 print(f'''Your expense is within the limit for pre-approved expenses. 
@@ -112,9 +113,11 @@ def view():
 
 def search():
     id=int(input("Enter the Id to be searched"))
-    for i in lists:
+    for i in lists[1:]:
         if i[0] == id:
             print(i)
+        else:
+            print("EMPLOYEE NOT FOUND") 
 
 def rejected():
     for i in reject:
@@ -124,7 +127,7 @@ def summary():
     print("EXPENSE SUMMARY").center(30,"=")
     print("\n")
     app=par=re=cl=al=av=0
-    for i in lists:
+    for i in lists[1:]:
         if i[-1] == 'aproved':
             app+=1
         elif i[-1] == 'partially aproved':
@@ -149,7 +152,7 @@ Average Claim: ₹{av}''')
 
 def totalexp():
     totalexpnce=0
-    for i in lists:
+    for i in lists[1:]:
         if i[-1] !='rejected':
             totalexpnce=i[-2]+totalexpnce
     print(f"Total reimbursement payable: {totalexpnce}")
