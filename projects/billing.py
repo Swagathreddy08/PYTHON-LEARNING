@@ -5,41 +5,48 @@ def expence(n):
         case "1":
             limit2=10000
             exp_name="Hotel"
+            return exp_name,limit2
         case "2":
             limit2=50000
             exp_name="flights"
+            return exp_name,limit2
         case "3":
             limit2=5000
             exp_name="transportation"
+            return exp_name,limit2
         case "4":
             limit2=2000
             exp_name="meals"
+            return exp_name,limit2
         case "5":
             limit2=2000
             exp_name="office supplies"
+            return exp_name,limit2
         case "6":
             limit2=1000
             exp_name="internet/mobile expences"
+            return exp_name,limit2
         case "7":
             limit2=15000
             exp_name="training/conferences"
+            return exp_name,limit2
         case _:
             print(" WRONG INPUT ")
             n=input("enter the choice")
-            expence(n)
-    return exp_name,limit2
+            exp_name,limit2=expence(n)
+            return exp_name,limit2
+
 
 def submit():
-    report=input(" is it pre aproved by manager?:(yes/no) ").lower()
-    if report not in ['yes','no']:
+    report=input(" is it pre aproved by manager?:(True/False) ").lower().title
+    if report not in ['True','False']:
         print("Please follow the instructions properly")
-        report=input(" is it pre aproved by manager?:(yes/no) ").lower()
+        report=input(" is it pre aproved by manager?:(yes/no) ").lower().title()
     spent=int(input("ENTER THE SPENT AMOUNT"))
-    if spent<0:
+    if spent<=0:
         print("enter a correct ammount")
         spent=int(input("Enter the spent amount correctly this time"))
     limit=int(input("Enter the max limit aproved by the manager"))
-
     choice=input('''
                      1)Hotel
                      2)flights
@@ -51,7 +58,8 @@ def submit():
                      ''')
     exp_name,lim2=expence(choice)
     Day=input("Enter the day of expense: ")
-    r=input("Do have receipt?:(yes/no) ")
+    r=input("Do have receipt?:(True/False) ").lower()
+    
     pr=input("Do you have a promotional code? (yes/no): ").lower()
     if pr=="yes":
         promo_code=input("Enter the promotional code: ").upper()
@@ -67,7 +75,7 @@ def submit():
     else:
         print("no promotional code")
         discount_rate=0
-    eid=int(input("Enter your eployee id : "))
+    eid=input("Enter your eployee id : ")
     name=input("Enter the name of the emplyee : ")
     dept=int(input("enter the dept no"))
     if dept not in [10,20,30,40,50]:
@@ -77,7 +85,7 @@ def submit():
     if report=="yes":
         discount_amount = eligibility * discount_rate
         final_price = eligibility - discount_amount
-        if r=="yes":
+        if r:
             if (spent<=limit and spent<=lim2):
                 print("Your expense is within the limit for pre-approved expenses. Reimbursement will be processed.")
                 status="aproved"
@@ -102,9 +110,9 @@ def submit():
             Reimbursement will be processed for the amount of {spent}. because its
             not with in the limit of {lim2} for {exp_name} expenses.''')
                 status="partially aproved"
-                l=[eid,name,exp_name,spent,lim2,status]
+                l=[eid,name,exp_name,spent,final_price,status]
                 lists.append(l)
-        elif r=="no":
+        elif r == False:
             reason="no proof of payment"
             status="rejected"
             l=[eid,name,exp_name,spent,0,status]
@@ -145,12 +153,14 @@ def summary():
     for i in lists[1:]:
         if i[-1] == 'aproved':
             app+=1
+            re+=i[-2]
         elif i[-1] == 'partially aproved':
             par+=1
+            re+=i[-2]
         elif i[-1] != 'rejected':
             re+=i[-2]
         cl+=i[-3]
-    if len(lists)-1>1:  
+    if len(lists)-1>=1:  
         av=(cl/(len(lists)-1))
     print(f'''
 
