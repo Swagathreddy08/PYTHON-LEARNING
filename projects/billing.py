@@ -1,35 +1,45 @@
 lists=[["EMPLOYE ID","NAME","EXPENCE CATEGORY","Climed Amount","Eligible AMT","STATUS"]]
 reject=[["EMPLOYE ID","NAME","EXPENCE CATEGORY","Climed amount","Reason"]]
 def expence(n):
-    if n=="1":
-        limit2=10000
-        exp_name="Hotel"
-    elif n=="2":
-        limit2=50000
-        exp_name="flights"
-    elif n=="3":
-        limit2=5000
-        exp_name="transportation"
-    elif n=="4":
-        limit2=2000
-        exp_name="meals"
-    elif n=="5":
-        limit2=2000
-        exp_name="office supplies"
-    elif n=="6":
-        limit2=1000
-        exp_name="internet/mobile expences"
-    elif n=="7":
-        limit2=15000
-        exp_name="training/conferences"
-    else:
-        print(" WRONG INPUT ")
+    match n:
+        case "1":
+            limit2=10000
+            exp_name="Hotel"
+        case "2":
+            limit2=50000
+            exp_name="flights"
+        case "3":
+            limit2=5000
+            exp_name="transportation"
+        case "4":
+            limit2=2000
+            exp_name="meals"
+        case "5":
+            limit2=2000
+            exp_name="office supplies"
+        case "6":
+            limit2=1000
+            exp_name="internet/mobile expences"
+        case "7":
+            limit2=15000
+            exp_name="training/conferences"
+        case _:
+            print(" WRONG INPUT ")
+            n=input("enter the choice")
+            expence(n)
     return exp_name,limit2
 
 def submit():
-    report=input(" is it pre aproved by manager?:(yes/no) ")
+    report=input(" is it pre aproved by manager?:(yes/no) ").lower()
+    if report not in ['yes','no']:
+        print("Please follow the instructions properly")
+        report=input(" is it pre aproved by manager?:(yes/no) ").lower()
     spent=int(input("ENTER THE SPENT AMOUNT"))
+    if spent<0:
+        print("enter a correct ammount")
+        spent=int(input("Enter the spent amount correctly this time"))
     limit=int(input("Enter the max limit aproved by the manager"))
+
     choice=input('''
                      1)Hotel
                      2)flights
@@ -44,13 +54,13 @@ def submit():
     r=input("Do have receipt?:(yes/no) ")
     pr=input("Do you have a promotional code? (yes/no): ").lower()
     if pr=="yes":
-        promo_code=input("Enter the promotional code: ")
+        promo_code=input("Enter the promotional code: ").upper()
         if promo_code=="DISCOUNT10":
             discount_rate=0.10
         elif promo_code=="DISCOUNT20":
             discount_rate=0.20
         elif promo_code=="DISCOUNT30":
-            discount_rate=0.30
+            discount_rate= 0.30
         else:
             print("Invalid promotional code")
             discount_rate=0
@@ -60,6 +70,9 @@ def submit():
     eid=int(input("Enter your eployee id : "))
     name=input("Enter the name of the emplyee : ")
     dept=int(input("enter the dept no"))
+    if dept not in [10,20,30,40,50]:
+        print("enter the correct dept no")
+        dept=int(input("enter the dept no"))
     eligibility=min(limit,spent,lim2)
     if report=="yes":
         discount_amount = eligibility * discount_rate
@@ -112,12 +125,14 @@ def view():
         print(i)
 
 def search():
+    b1=False 
     id=int(input("Enter the Id to be searched"))
     for i in lists[1:]:
         if i[0] == id:
+            b1=True
             print(i)
-        else:
-            print("EMPLOYEE NOT FOUND") 
+    if b1 == False:
+        print("EMPLOYEE NOT FOUND") 
 
 def rejected():
     for i in reject:
@@ -134,8 +149,9 @@ def summary():
             par+=1
         elif i[-1] != 'rejected':
             re+=i[-2]
-        cl+=i[-3]   
-    av=(cl/(len(lists)-1))
+        cl+=i[-3]
+    if len(lists)-1>1:  
+        av=(cl/(len(lists)-1))
     print(f'''
 
 Total Claims: {len(lists)-1}
