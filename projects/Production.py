@@ -268,6 +268,6 @@ while True:
             critical(logs)
         case 7:
             break
-        case _:  # Default case if no other patterns match
+        case _:  
             print("wrong input")
 

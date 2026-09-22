@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form</title>
+</head>
+
+<body>
+
+    <form>
+
+        <fieldset>
+            <legend>Step 1: Your details</legend>
+
+            <p>
+                <label for="name">Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="First and last name"
+                    required
+                >
+            </p>
+
+            <p>
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="example@domain.com"
+                    required
+                >
+            </p>
+
+            <p>
+                <label for="phone">Phone</label>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="Eg. +447500000000"
+                    required
+                >
+            </p>
+
+        </fieldset>
+
+
+        <fieldset>
+            <legend>Step 2: Delivery address</legend>
+
+            <p>
+                <label for="address">Address</label>
+                <textarea
+                    id="address"
+                    name="address"
+                    rows="5"
+                    required
+                ></textarea>
+            </p>
+
+            <p>
+                <label for="postcode">Post code</label>
+                <input
+                    type="text"
+                    id="postcode"
+                    name="postcode"
+                    required
+                >
+            </p>
+
+            <p>
+                <label for="country">Country</label>
+                <input
+                    type="text"
+                    id="country"
+                    name="country"
+                    required
+                >
+            </p>
+
+        </fieldset>
+
+
+        <fieldset>
+            <legend>Step 3: Card details</legend>
+
+            <p>Card type</p>
+
+            <p>
+                <input
+                    type="radio"
+                    id="visa"
+                    name="card_type"
+                    value="visa"
+                    required
+                >
+                <label for="visa">VISA</label>
+
+                <input
+                    type="radio"
+                    id="amex"
+                    name="card_type"
+                    value="amex"
+                >
+                <label for="amex">AmEx</label>
+
+                <input
+                    type="radio"
+                    id="mastercard"
+                    name="card_type"
+                    value="mastercard"
+                >
+                <label for="mastercard">Mastercard</label>
+            </p>
+
+            <p>
+                <label for="card_number">Card number</label>
+                <input
+                    type="text"
+                    id="card_number"
+                    name="card_number"
+                    inputmode="numeric"
+                    required
+                >
+            </p>
+
+            <p>
+                <label for="security_code">Security code</label>
+                <input
+                    type="password"
+                    id="security_code"
+                    name="security_code"
+                    inputmode="numeric"
+                    required
+                >
+            </p>
+
+            <p>
+                <label for="card_name">Name on card</label>
+                <input
+                    type="text"
+                    id="card_name"
+                    name="card_name"
+                    required
+                >
+            </p>
+
+        </fieldset>
+
+        <button type="submit">BUY IT!</button>
+
+    </form>
+
+</body>
+</html>

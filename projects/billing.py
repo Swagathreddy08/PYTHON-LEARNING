@@ -41,7 +41,7 @@ def submit():
     report=input(" is it pre aproved by manager?:(True/False) ").lower().title
     if report not in ['True','False']:
         print("Please follow the instructions properly")
-        report=input(" is it pre aproved by manager?:(yes/no) ").lower().title()
+        report=input(" is it pre aproved by manager?:(True/False) ").lower().title()
     spent=int(input("ENTER THE SPENT AMOUNT"))
     if spent<=0:
         print("enter a correct ammount")
@@ -134,11 +134,12 @@ def view():
 
 def search():
     b1=False 
-    id=int(input("Enter the Id to be searched"))
+    id=input("Enter the Id to be searched")
     for i in lists[1:]:
         if i[0] == id:
             b1=True
             print(i)
+            break
     if b1 == False:
         print("EMPLOYEE NOT FOUND") 
 
@@ -147,7 +148,7 @@ def rejected():
         print(i)
 
 def summary():
-    print("EXPENSE SUMMARY").center(30,"=")
+    print("EXPENSE SUMMARY")
     print("\n")
     app=par=re=cl=al=av=0
     for i in lists[1:]:
