@@ -1,0 +1,15 @@
+a=[1,2,'abs','car',3+1j,'empo1']
+s={1,2,[1,23,4,5,6]}
+t=((2,4),[1,2,3])
+d={0:'apple',2:'car'}
+print(a)
+print(a[1])
+print(s)
+print(t)
+print(d)
+print(d[2])
+t[1].append(10)
+print(t[1])
+print(t)
+s[3].add(10)
+print(s)
