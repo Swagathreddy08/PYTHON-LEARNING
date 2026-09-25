@@ -21,7 +21,16 @@ def add():
                             'name': input("name"),
                             'email':input("email"),
                             'subjects':list((input("skills").lower().split(" "))),
-                            'marks': int(input("enter the marks")),
+                            'marks': {
+                                    'maths':int(input("enter maths marks ")),
+                                    'physics':int(input("enter physics marks")),
+                                    'biology':int(input("enter biology marks")),
+                                    'english':int(input("enter english marks")),
+                                    'social':int(input("enter social marks")),
+                                    'telugu':int(input("enter telugu marks")),
+                                    'hindi':int(input("enter hingi marks"))
+                                    },
+
                             'attandence':int(input("enter the attandence percentage")),
                             'skills': set(input("enter the skills ").lower().split(" ")),
                             'status':input("enter the acc status(active/inactive)").lower()                        
@@ -40,7 +49,15 @@ def add():
                                 'name': input("name"),
                                 'email':input("email"),
                                 'subjects':list((input("skills").lower().split(" "))),
-                                'marks': int(input("enter the marks")),
+                                'marks': {
+                                    'maths':int(input("enter maths marks ")),
+                                    'physics':int(input("enter physics marks")),
+                                    'biology':int(input("enter biology marks")),
+                                    'english':int(input("enter english marks")),
+                                    'social':int(input("enter social marks")),
+                                    'telugu':int(input("enter telugu marks")),
+                                    'hindi':int(input("enter hingi marks"))
+                                },
                                 'attandence':int(input("enter the attandence percentage")),
                                 'skills': set(input("enter the skills ").lower().split(" ")),
                                 'status':input("enter the acc status(active/inactive)").lower()
@@ -72,7 +89,7 @@ def delete():
 def unique():
     s=set()
     for i in d:
-        s.union(d[i]['skills'])
+        s=s.union(d[i]['skills'])
 
     print("the unique skills are :")
     print(s)
@@ -92,6 +109,7 @@ print('''
 6. Student Statistics
 7. unique skills
 8. Exit''')
+
 while True:
     choice=input("enter your chice ")
     match choice:
