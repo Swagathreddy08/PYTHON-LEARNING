@@ -17,11 +17,11 @@ def add():
             id=check(id2)
             if id==False:
                 d[id2]={
-                    'user_id': id2,
-                            'name': input("name"),
-                            'email':input("email"),
-                            'subjects':list((input("skills").lower().split(" "))),
-                            'marks': {
+                    'id': id2,
+                        'name': input("name"),
+                        'email':input("email"),
+                        'subjects':list((input("skills").lower().split(" "))),
+                        'marks': {
                                     'maths':int(input("enter maths marks ")),
                                     'physics':int(input("enter physics marks")),
                                     'biology':int(input("enter biology marks")),
@@ -31,9 +31,9 @@ def add():
                                     'hindi':int(input("enter hingi marks"))
                                     },
 
-                            'attandence':int(input("enter the attandence percentage")),
-                            'skills': set(input("enter the skills ").lower().split(" ")),
-                            'status':input("enter the acc status(active/inactive)").lower()                        
+                        'attandence':int(input("enter the attandence percentage")),
+                        'skills': set(input("enter the skills ").lower().split(" ")),
+                        'status':input("enter the acc status(active/inactive)").lower()                        
                             }
             else:
                 id2 = int(input("enter id of student"))
@@ -45,7 +45,7 @@ def add():
             id=check(id2)
             if id==False:
                 d[id2]={
-                            'user_id': id2,
+                            'id': id2,
                                 'name': input("name"),
                                 'email':input("email"),
                                 'subjects':list((input("skills").lower().split(" "))),
@@ -60,7 +60,8 @@ def add():
                                 },
                                 'attandence':int(input("enter the attandence percentage")),
                                 'skills': set(input("enter the skills ").lower().split(" ")),
-                                'status':input("enter the acc status(active/inactive)").lower()
+                                'status':input("enter the acc status(active/inactive)").lower(),
+                                'performance':"pass"
                                                         
                                     }
             else:
@@ -94,6 +95,43 @@ def unique():
     print("the unique skills are :")
     print(s)
 
+def stats():
+    avg=0
+    sum=0
+    avg1=0
+    for i in d:
+        print(d[i]['name'],
+              d[i]['id'],
+              ['marks'])
+        for j in d[i]['marks']:
+            sum=d[i]['marks'][j]+sum
+            if d[i]['marks'][j]<35:
+                d[i]['performance']='FAIL'
+        avg=sum/len(d[i]['marks'])
+        avg1=avg1+sum         
+        print(f'''
+=======================================
+Student Statistics
+=======================================
+      marks:\n {d[i]['marks'].items()} \n
+      avg student marks : {avg} \n
+      status : {d[i]['status'].values()}\n
+      Result : {d[i]['performance']}    
+    ''')
+    avg1=avg1/len(d)
+    print(f'total sutents avg : {avg1}')
+
+def updates():
+    id=int(input("ENTER THE ID OF THE STUDENT TO BE EXECUTED : "))
+    id2=check(id)
+    if id2== True:
+        key=input("Enter category to change : ")
+        if key in d[id]:
+            data=input("enter the data here")
+            d[id].update({key:data})
+    else:
+        print("you entered wrong id")
+
 print('''
 
 
@@ -119,8 +157,16 @@ while True:
             view()
         case "3":
             find()
+        case "4":
+            updates()
+        case "5":
+            delete() 
+        case '6':
+            stats()
         case "7":
             unique()
+        case '8':
+            break
         case _:  
             print("wrong input")
 
