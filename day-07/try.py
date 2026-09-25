@@ -14,7 +14,19 @@ def check2(id2):
         else:
             print("the id is not available")
             return False
-        
+def att():
+    atd=input("enter the attandence percntage")
+    if atd.isnumeric() :
+        atd=int(atd)
+        if atd in range(0,101):
+            return atd
+        else:
+            print("enter the correct percentage")
+            return att()
+    else:
+         print("enter only numbers")
+         return att()
+            
 def add():
         print("do you want a student detalis" )
         q=int(input("How many students ?"))
@@ -36,10 +48,10 @@ def add():
                                         'hindi':int(input("enter hingi marks"))
                                         },
 
-                            'attandance': att if (att := int(input("Enter attandance percentage: "))) in range(0, 101) else main()  ,
+                            'attandance': att(),
                             'skills': set(input("enter the skills ").lower().split(" ")),
                             'status':'active',
-                            'performance':'pass'
+                            
                                 }
 
         
@@ -96,11 +108,11 @@ def stats():
             print(d[i]['name'],
                 d[i]['id'],
                 d[i]['marks'])
-            
+            d[i]['performance']='pass'
             for j in d[i]['marks']:
                 s=d[i]['marks'][j]+s
                 if d[i]['marks'][j]<35:
-                    d[i]['performance']='FAIL'
+                    d[i]['performance']='fail'
                 
             avg=s/len(d[i]['marks'])
             
@@ -145,7 +157,7 @@ def updates():
                             case '2':
                                 data= input('enter the skill u want to be removed')
                                 if data in d[id][key]:
-                                    d[id][key].pop(data)
+                                    d[id][key].remove(data)
                                 else:
                                      print("skill not present")
                     case 'name':
@@ -153,11 +165,7 @@ def updates():
                     case 'email':
                         d[id][key]=input("enter the change of email")
                     case 'attandence':
-                        att=int(input("enter the attandence percentage"))
-                        if att in range (0,101):
-                            d[id][key]=att
-                        else:
-                             print("give correct attandence")
+                        d[id][key]=att()
                     case 'status':
                         print('''1.inactive
                         2.active''')
@@ -176,43 +184,43 @@ def updates():
         else:
             print("you entered wrong id")
 
-def main(): 
-    print('''
+
+print('''
 
 
-        ========================================
-            student engine
-        ========================================
+    ========================================
+        student engine
+    ========================================
 
-        1. Add Student
-        2. View Students
-        3. Search Student
-        4. Update Student
-        5. Delete Student
-        6. Student Statistics
-        7. unique skills
-        8. Exit''')
+    1. Add Student
+    2. View Students
+    3. Search Student
+    4. Update Student
+    5. Delete Student
+    6. Student Statistics
+    7. unique skills
+    8. Exit''')
 
-    while True:
-            choice=input("enter your chice ")
-            match choice:
-                case "1":
-                    add()
-                case "2":
-                    view()
-                case "3":
-                    find()
-                case "4":
-                    updates()
-                case "5":
-                    delete() 
-                case '6':
-                    stats()
-                case "7":
-                    unique()
-                case '8':
-                    break
-                case _:  
-                    print("wrong input")
+while True:
+        choice=input("enter your chice ")
+        match choice:
+            case "1":
+                add()
+            case "2":
+                view()
+            case "3":
+                find()
+            case "4":
+                updates()
+            case "5":
+                delete() 
+            case '6':
+                stats()
+            case "7":
+                unique()
+            case '8':
+                break
+            case _:  
+                print("wrong input")
 
-                
+            
