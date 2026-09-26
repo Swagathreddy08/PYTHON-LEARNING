@@ -1,18 +1,61 @@
-d={
+d={101:{'id': 101,
+                            'name': 'ravi',
+                            'email':'ravi@gmail.com',
+                            'marks': {
+                                        'maths':10,
+                                        'physics':30,
+                                        'biology':90,
+                                        'english':36,
+                                        'social':90,
+                                        'telugu':94,
+                                        'hindi':73
+                                        },
+
+                            'attandance': 85,
+                            'skills': set('sql'),
+                            'status':'active',   
+},
+'102':{'id': 102,
+                            'name': 'ravi',
+                            'email':'ravi@gmail.com',
+                            'marks': {
+                                        'maths':10,
+                                        'physics':30,
+                                        'biology':90,
+                                        'english':36,
+                                        'social':90,
+                                        'telugu':94,
+                                        'hindi':73
+                                        },
+
+                            'attandance': 85,
+                            'skills': set('sql'),
+                            'status':'active',   
+}
         }
-
-
+b=False
 def check(id2):
-        if id2 in d:
-            id2=int(input("Enter correct id which is not in data base: "))
-            return check(id2)
-        else:
-            return True
+     global b
+     if id2 not in d:
+          1
+
+          b=True
+          return id2
+     else:
+          
+          b=False
+          print(" Id is already present in the dictionary ")
+          id2=int(input("enter the correct id "))
+          return check(id2)
+
+
+        
 def check2(id2):
         if id2 in d:
             return True
         else:
             print("the id is not available")
+
             return False
 def att():
     atd=input("enter the attandence percntage")
@@ -26,33 +69,47 @@ def att():
     else:
          print("enter only numbers")
          return att()
-            
+def mark():
+    mar=input("Enter the marks in numbers")
+    if mar.isnumeric():
+        mar=int(mar)
+        if mar >= 0: 
+            if mar in range(0,101):
+                return mar
+            else:
+                print("enter the correct marks")
+                return mark()
+        else:
+             print("enter a positive integer")
+             return mark()
+    else:
+        print("enter only numbers")
+        return mark()
 def add():
         print("do you want a student detalis" )
         q=int(input("How many students ?"))
-        for i in range(q):
-                id2 = int(input("enter id of student"))
-                
-                if check(id2):
+        id2=int(input("enter the input"))
+        for i in range(q):              
+                id2=check(id2)
+                if b:
                     d[id2]={
                         'id': id2,
                             'name': input("name"),
                             'email':input("email"),
                             'marks': {
-                                        'maths':int(input("enter maths marks ")),
-                                        'physics':int(input("enter physics marks")),
-                                        'biology':int(input("enter biology marks")),
-                                        'english':int(input("enter english marks")),
-                                        'social':int(input("enter social marks")),
-                                        'telugu':int(input("enter telugu marks")),
-                                        'hindi':int(input("enter hingi marks"))
+                                        'maths':mark(),
+                                        'physics':mark(),
+                                        'biology':mark(),
+                                        'english':mark(),
+                                        'social':mark(),
+                                        'telugu':mark(),
+                                        'hindi':mark()
                                         },
 
                             'attandance': att(),
                             'skills': set(input("enter the skills ").lower().split(" ")),
                             'status':'active',
-                            
-                                }
+                            }
 
         
 
