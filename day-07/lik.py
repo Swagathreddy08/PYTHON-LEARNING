@@ -83,12 +83,17 @@ def search():
 def delete():
         id2 = input("enter id of user")
         id=check3(id2)
+        j=0
+        a=[]
         if id == True:
             del users[id2]
             for i in posts:
                 if posts[i]['user_id']==id2:
-                    del posts[i]
-            
+                    a.append(i)
+            while j < len(a):
+                 del posts[a[j]]
+                 j+=1           
+            a.clear()
             if id2 in db:
                 del db[id2]
         else:
