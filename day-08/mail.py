@@ -1,6 +1,6 @@
 lib=[{"bname":"history","bid":"001","status":"Active" }]
 id=['001','002']
-def option():
+def option(cid):
     choice=0
     while True:
                  print(''' 1) Add New books to library 
@@ -16,7 +16,7 @@ def option():
                      case '2':
                            serach()
                      case '3':
-                           borrow()
+                           borrow(cid)
                      case '4':
                            ret()
                      case '5':
@@ -107,7 +107,7 @@ def serach():
     else:
          print("the book is not available ")
 
-def borrow():
+def borrow(cid):
     bname=input("enter the book name").lower()
     check,details=bcheck(bname)
     if check==True:
@@ -116,7 +116,7 @@ def borrow():
          print("Note for every 1 day dealay 5 rs fine and cost for the lend duration is 50 rs")
          for i in lib:
               if details["bid"]==i["bid"]:
-                   i.update({"status":"borrowed","borroed_date":borrow_date,"return_date":return_date})
+                   i.update({"status":"borrowed","borroed_date":borrow_date,"return_date":return_date,"borrowed by": cid} )
     else:
          print("book is not available")
 
@@ -129,7 +129,7 @@ def ret():
         print("Note for every 1 day dealay 5 rs fine and cost for the lend duration is 50 rs")
         for i in lib:
             if details["bid"]==i["bid"]:
-                i.update({"status":"Active","borroed_date":" ","return_date":return_date})
+                i.update({"status":"Active","borroed_date":" ","return_date":return_date ,"borrowed by":""})
         
      
          
@@ -139,7 +139,7 @@ print("welcome to swwag library")
 cid=input("enter your id")
 if login(cid):
         #option to choose from
-        option()
+        option(cid)
              
 else:
         #repete the login again
@@ -148,9 +148,6 @@ else:
         if c == 'yes':
             t=create()
             if login(t):
-                 option()
+                 option(t)
             else:
                  print("login failed")
-            
-
-        
