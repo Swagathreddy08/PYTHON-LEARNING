@@ -49,7 +49,7 @@ def view():
         case '1':
             for i in cdb:
                 print("\n" ,i)
-            print("BUY SOME NEW CARS FOR THE BUSINESS")
+            print("ADVERTIZE YOUR BUSINESS PROPERLY")
         case '2':
             for i in cdb:
                 if i["status"]=="borrowed":
@@ -99,21 +99,63 @@ def validate():
             else:
                 print("verifiy the cars first")
 
+def checkcar(id):
+    for i in cardb:
+        if i["car id"]==id :
+            return False
+    else:
+        return True
+def add():
+    print("HELLO BOSS GIVE ME THE NEW CAR DETAILS")
+    carid=input("enter the car id")
+    if checkcar(carid):
+        car={"car id":carid,
+         "carname":input("enter the car name"),
+         "status":"active",
+         "model":input("enter car model"),
+         "verification":"Done",
+         "costofday":int(input("enter per day ride ammount"))}
+        cardb.append(car)
+    else:
+        print("car id already exist in database")
+        add()
+
+def remove():
+    print("HELLO BOSS GIVE ME THE NEW CAR DETAILS to be removed from garage")
+    carid=input("enter the car id")
+    i=0
+    if checkcar(carid)== False:
+        while i < len(cardb):
+            if cardb[i]["car id"]==carid and cardb[i]["status"]=="active":
+                cardb.pop(i)
+            i+=1
+        
+        
+            
+
 def menuofadmin():
-    print("1)View Customer\n2)view cars\n3)Validate cars")
-    c=input("enter your choice")
-    match c:
-        case '1':
-            view()
-        case '2':
-            viewcars()
-        case '3':
-            validate()
-        case _:
-            print("enter the correct input")
+    while True:
+        print("\n Admin controls \n")
+        print("1)View Customer\n2)view cars\n3)Validate cars\n4)Add car\n5)Remove car\n6)logout")
+        c=input("enter your choice")
+        match c:
+            case '1':
+                view()
+            case '2':
+                viewcars()
+            case '3':
+                validate()
+            case '4':
+                add()
+            case '5':
+                remove()
+            case '6':
+                break
+            case _:
+                print("enter the correct input")
 
 def menuofcustomer():
-    print("i am customer")
+    print("i am customer")  
 
 
 
