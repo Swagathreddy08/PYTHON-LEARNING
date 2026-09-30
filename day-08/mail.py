@@ -5,7 +5,9 @@ def option():
     while True:
                  print(''' 1) Add New books to library 
                 2)Search/view availability
-                3)borrow ''')
+                3)borrow
+                4)Return 
+                5)Exit ''')
              
                  choice=input("enter your choice")
                  match choice:
@@ -15,9 +17,19 @@ def option():
                            serach()
                      case '3':
                            borrow()
+                     case '4':
+                           ret()
+                     case '5':
+                           break
+                     case _ :
+                        print("enter the correct input")
+                           
 def login(cid):
+
     if cid in id:
         return True
+    else:
+         return False
 def create():
     cid=input("enter your id")
     if cid not in id:
@@ -57,25 +69,38 @@ def bcheck(bname):
         else:
              pass
     return b,0
-          
-def add():
-    bid=input("enter the book id")
-    
-    if check(bid):
-            bname=input("enter book name : ")
-            book={
-                 "bname":bname,
-                 "bid":bid,
-                 "status":'Active',
 
-            }
-            lib.append(book)
-    else:
+def rcheck(bname):
+    b= False
+    for i in lib:
+        if bname == i["bname"]and i["status"]=="borrowed":
+            b=True
+            return b,i
+        else:
              pass
-    
+    return b,0
+
+def add():
+    i=0
+    n=int(input("enter how many books you want to add"))
+    while i<n:
+        bid=input("enter the book id")
+        if check(bid):
+                bname=input("enter book name : ").lower()
+                book={
+                    "bname":bname,
+                    "bid":bid,
+                    "status":'Active',
+
+                }
+                lib.append(book)
+        else:
+                print("the book id already exists")
+        i+=1
+        
 
 def serach():
-    bname=input("enter the book name")
+    bname=input("enter the book name").lower()
     available,check,quantity =scheck(bname)
     if check==True:
           print(f" the book {bname} is found and the library has {quantity} books but {available} are available ")
@@ -83,7 +108,7 @@ def serach():
          print("the book is not available ")
 
 def borrow():
-    bname=input("enter the book name")
+    bname=input("enter the book name").lower()
     check,details=bcheck(bname)
     if check==True:
          borrow_date=input("enter borrowed date for the book")
@@ -94,6 +119,19 @@ def borrow():
                    i.update({"status":"borrowed","borroed_date":borrow_date,"return_date":return_date})
     else:
          print("book is not available")
+
+
+def ret():
+    bname=input("enter the book name").lower()
+    check,details=rcheck(bname)
+    if check==True:
+        return_date=input("enter return date for the book")
+        print("Note for every 1 day dealay 5 rs fine and cost for the lend duration is 50 rs")
+        for i in lib:
+            if details["bid"]==i["bid"]:
+                i.update({"status":"Active","borroed_date":" ","return_date":return_date})
+        
+     
          
 
 
@@ -111,6 +149,8 @@ else:
             t=create()
             if login(t):
                  option()
+            else:
+                 print("login failed")
             
 
         
