@@ -17,14 +17,12 @@ def admincheck():
         return admincheck()
 def createcheck():  
     uid=input("enter the user id : ") 
-    for i in db:
-        if uid != i["cid"]:
-            
+    while uid not in [i["cid"] for i in db]:
             return True,uid
     else:
         print("user id already exists")
         return createcheck()
-
+    
 def create(cid):
     customer={
         'cid':cid,
@@ -37,7 +35,7 @@ def customercheck():
     psw=input("enter the password : ")
     for i in db:
         if uid == i["cid"] and psw == i["cpsw"]:
-            return True
+            return True, uid
     else:
         print("enter the correct id and password")
         return customercheck()
@@ -129,9 +127,6 @@ def remove():
             if cardb[i]["car id"]==carid and cardb[i]["status"]=="active":
                 cardb.pop(i)
             i+=1
-        
-        
-            
 
 def menuofadmin():
     while True:
@@ -153,9 +148,45 @@ def menuofadmin():
                 break
             case _:
                 print("enter the correct input")
+def borrow(id):
+    print("hello customer ")
+    cid=input("enter the car id you want to borrow")
+    for i in cardb:
+        if i["car id"]==cid and i["status"]=="active":
+            i.update({"status":"borrowed","borrowed by":f"{id}","days":int(input("enter the days you want to borrow"))})
+            print("car borrowed successfully")
+            break
+    else:
+        print("car is not available")
 
-def menuofcustomer():
-    print("i am customer")  
+def rcar():
+        print("hello customer ")
+        id=input("enter the car id you want to return")
+        for i in cardb:
+            if i["car id"]==id:
+                i.update({"verification":"pending"})
+                print("car returned successfully")
+                break
+            else:
+                print("car is not borrowed or not available")
+
+def menuofcustomer(id):
+    print(" HELLO CUSTOMER \n") 
+    while True:
+        print("1)View cars\n2)Borrow car\n3)Return car\n4)logout")
+        c=input("enter your choice")
+        match c:
+            case '1':
+                viewcars()
+            case '2':
+                borrow(id)
+            case '3':
+                rcar()
+            case '4':
+                break
+            case _:
+                print("enter the correct input")
+    
 
 
 
@@ -173,14 +204,16 @@ while True:
         case '2':
             st=input("do you have a acc in the rental service (yes/no) ").lower()
             if st == 'yes':
-                if customercheck():
-                    menuofcustomer()
+                b,id=customercheck()
+                if b== True:
+                    menuofcustomer(id)
             elif st== 'no':
                 b,uid=createcheck()
                 if b == True:
                     create(uid)
-                    if customercheck():
-                        menuofcustomer()
+                    b,id= customercheck()
+                    if b== True:
+                        menuofcustomer(id)
         case _:
             print("enter correct input")    
 
