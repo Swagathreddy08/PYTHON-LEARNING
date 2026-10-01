@@ -1,7 +1,7 @@
 days={"001":["monday", "wednesday", "friday"]}
 admin={"id":"ADMIN",
        "psw":"Swag@2004"}
-doctordb=[{"Doctor ID":"001",
+doctordb=[ {"Doctor ID":"D001",
            "psw":"doc001",
 "Name":"Dr. John Doe",
 "Department":"Cardiology",
@@ -21,8 +21,7 @@ patientdb=[{"Patient ID":"001",
 "Phone":"123-456-7890",
 "Blood group":"O+",
 "status":"Active",
-"Appointment ":[{f"Appointment with {doctordb[0]['Name']} on {days['001'][0]} at {doctordb[0]['slots'][days['001'][0]][0]}"}]
-}]
+"Appointment":[]}]
 
 def admincheck():
     uid=input("enter the user id : ") 
@@ -53,7 +52,7 @@ def pcheck():
         psw=input("enter the password")
         for i in patientdb:
             if i["Patient ID"]==pid and i["psw"]==psw:
-                return True
+                return True , pid
         else:
             print("userid or password is wrong")
             return pcheck()
@@ -77,44 +76,47 @@ def pcreate():
 "Phone":input("phone no : "),
 "Blood group":input("Blood Group : "),
 "status":"pending",
-"Appointment ":[]
+"Appointment":[]
 }
         patientdb.append(pd)
     else:
         print("user already exists")
         pcreate()
 
-def book():
+def book(pid):
     print("welcome to swag hospitals")
     print("available departments")
     for i in doctordb:
         print(i["Department"])
         dept=input("depatment name : ")
-    for i in doctordb:
         if i["Department"] == dept:
             print(f"{i["Doctor ID"]} name : {i["Name"]}")
-    id=input("Doctor id : ")
-    for i in doctordb:
+        id=input("Doctor id : ")
+    
         if i["Doctor ID"]==id:
             print(i["days"])
-    day=input("day selected : ")
-    for i in doctordb:
+        day=input("day selected : ")
         print(i["slots"][day])
-    time=input("time : ")
-    for i in doctordb:
+        time=input("time : ")
         if i["Doctor ID"] == id:
             i["slots"][day].remove(time)
+    for i in patientdb:
+        if i["Patient ID"]==pid:
+            text={id:f"Appointment with {id} on {day} at {time}"}
+            i["Appointment"].append(text)
+
             
 
 def plogin():
-    if pcheck():
+    b,id =pcheck()
+    if b == True :
         print("welcome patient")
         while True:
             print("1)\n2)")
             c=input("enter your choice")
             match c:
                 case '1':
-                    book()
+                    book(id)
                 case '2':
                     print("case2")
                 case '3':
