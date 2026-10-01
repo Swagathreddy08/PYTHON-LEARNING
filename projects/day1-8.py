@@ -2,8 +2,8 @@ cardb=[{"car id":"001","carname":"i20","status":"borrowed","model":"sedan","veri
 {"car id":"002","carname":"creta","status":"borrowed","model":"sedan","verification":"pending","borrowed by" :"002","days":1,"costofday":1600},
 {"car id":"004","carname":"civic","status":"active","model":"sedan","verification":"Done","costofday":1400},
 {"car id":"003","carname":"i10","status":"active","model":"sedan","verification":"Done","costofday":1200}]
-cdb=[{"cid":"001","cname":"swagath","phone no":"8179524481","email":"swag@gmail.com","driving licence no":"APZ1771H","status":"active" },
-     {"cid":"002","cname":"swagath","phone no":"8179524481","email":"swag@gmail.com","driving licence no":"APZ1771H","status":"active"}]
+cdb=[{"cid":"001","cname":"swagath","phone no":"8179524481","email":"swag@gmail.com","driving licence no":"APZ1771H","status":"active","balance":0 },
+     {"cid":"002","cname":"swagath","phone no":"8179524481","email":"swag@gmail.com","driving licence no":"APZ1771H","status":"active","balance":0 }]
 db=[{"cid":"001","cpsw":"test"},{"cid":"002","cpsw":"test"}]
 admin={"id":"ADMIN",
        "psw":"Swag@2004"}
@@ -21,14 +21,23 @@ def createcheck():
             return True,uid
     else:
         print("user id already exists")
-        return createcheck()
+        return createcheck()    
     
 def create(cid):
     customer={
         'cid':cid,
         'cpsw':input("enter the password")
     }
+    validc={"cid":cid,
+     "cname":input("enter the customer name"),
+     "phone no":int(input("enter the phone number")),
+     "email":input("enter the email"),
+     "driving licence no":input("enter the driving licence number"),
+     "status":"active",
+      "balance":0 }
+    
     db.append(customer)
+    cdb.append(validc)
     print("user successfully created")
 def customercheck():
     uid=input("enter the user id : ") 
@@ -52,9 +61,8 @@ def view():
             for i in cdb:
                 if i["status"]=="borrowed":
                     print("\n",i)
-            else:
-                print("NO one borrowed cars")
 
+                    
 def viewcars():
     print("HEllO BOSS ")
     print("1)All cars \n2)car borrowed ")
@@ -68,8 +76,7 @@ def viewcars():
             for i in cardb:
                 if i["status"]=="borrowed":
                     print("\n",i)
-            else:
-                print("NO one borrowed cars")
+        
 
 def validate():
     print("HELLO BOSS \n getting all borrowed cars pending validation list")
@@ -151,24 +158,32 @@ def menuofadmin():
 def borrow(id):
     print("hello customer ")
     cid=input("enter the car id you want to borrow")
-    for i in cardb:
-        if i["car id"]==cid and i["status"]=="active":
-            i.update({"status":"borrowed","borrowed by":f"{id}","days":int(input("enter the days you want to borrow"))})
-            print("car borrowed successfully")
-            break
-    else:
-        print("car is not available")
+    a=int(input("enter the days you want to borrow"))
+    if a<=0:
+        print("enter valid number of days")
+        a= int(input("enter the days you want to borrow"))
 
-def rcar():
+    for j in cdb:
+        if j["status"]=="active" and j["cid"]==id and j["balance"]==0 :
+            for i in cardb:
+                if i["car id"]==cid and i["status"]=="active":
+                    i.update({"status":"borrowed","borrowed by":f"{id}","days": a })
+                    j.update({"status":"borrowed" , "borrowed car":cid ,"borrwed car name":i['carname']})
+                    print("car borrowed successfully")
+                    
+            
+def rcar(id):
         print("hello customer ")
-        id=input("enter the car id you want to return")
-        for i in cardb:
-            if i["car id"]==id:
-                i.update({"verification":"pending"})
-                print("car returned successfully")
-                break
-            else:
-                print("car is not borrowed or not available")
+        cid=input("enter the car id you want to return")
+        for j in cdb :
+            if j["status"]=="borrowed" and j["cid"]== id:
+                for i in cardb:
+                    if i["car id"]==cid and i["borrowed by"]==id and i["status"]=="borrowed":
+                        i.update({"verification":"pending"})
+                        j.update({"status":"active" , "borrowed car":"" ,"borrwed car name":""})
+                        print("car returned successfully")
+                        break
+
 
 def menuofcustomer(id):
     print(" HELLO CUSTOMER \n") 
@@ -181,7 +196,7 @@ def menuofcustomer(id):
             case '2':
                 borrow(id)
             case '3':
-                rcar()
+                rcar(id)
             case '4':
                 break
             case _:
