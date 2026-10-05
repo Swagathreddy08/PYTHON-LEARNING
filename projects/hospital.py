@@ -115,7 +115,7 @@ def cday(dept,did):
             if i["status"]=="active":
                 for j in i["days"]:
                     print(j)
-            elif i["status"]=="leave":
+            elif i["status"]in["leave","leave aproval"]:
                 for j in i["days"]:
                     if j != i["leave"]["day"]:
                         print(j)
@@ -129,7 +129,7 @@ def cday(dept,did):
                     print("Not a working day")
                     return cday(dept,did)
 
-            elif i["status"]=="leave":
+            elif i["status"]in["leave","leave aproval"]:
                 if day != i["leave"]["day"]:
                     if day in i["days"]:
                         return day
@@ -218,7 +218,7 @@ def doclogin():
     if b==True:
         print("welcome admin")
         while True:
-            print("1)\n2)")
+            print("1)Patient Check \n2)Leave")
             c=input("enter your choice")
             match c:
                 case '1':
@@ -255,10 +255,12 @@ def slots(day):
 
 def add_doc():
     id = input("NEW DOCTOR ID : ")
-    
     if checknewdoc(id):
         day=input("Work Days : ").lower().split()
-        days[id]=day
+        if day in ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']:
+            days[id]=day
+        else:
+            add_doc()
         doc={"Doctor ID":id,
            "psw":input("password : "),
 "Name":input("Name : "),
@@ -267,7 +269,8 @@ def add_doc():
 "Consultation fee":int(input("Fee : ")),
 "days":days[id],
 "slots":slots(day),
-"status":"active"}
+"status":"active",
+"Appointment":[]}
         doctordb.append(doc)
 
     else:
@@ -282,9 +285,11 @@ def leaveap():
             b=input(f"Do you want to aprove the leave for the {i['Name']}(Yes/No)").lower()
             if b=="yes":
                 i["status"]="leave"
-            else:
+            elif b=="no":
                 i["status"]="active"
-
+            else:
+                print("enter a valid input")
+                leaveap()
 def adminlogin():
     if admincheck():
         print("welcome admin")
