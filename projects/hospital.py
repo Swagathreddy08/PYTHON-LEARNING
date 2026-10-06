@@ -8,11 +8,11 @@ doctordb=[ {"Doctor ID":"D001","psw":"doc001","Name":"Dr. John Doe","Department"
  days["001"][2]:["9:30","10:30","11:30","12:30"]},"status":"leave aproval","Appointment":[],
  "leave":{"day":"monday","reason":"Feaver"}
  }]
-
 patientdb=[{"Patient ID":"001","psw":"pat001","Name":"John Doe","Age":30,"Gender":"Male","Phone":"123-456-7890",
 "Blood group":"O+","status":"active","Appointment":[]}]
 
 def admincheck():
+
     global a
     if a<=5:
         uid=input("enter the user id : ") 
@@ -62,7 +62,6 @@ def pcheck():
     else:
             print("limit exausted")
             return False,None
-
 def pcreatecheck(id):
     for i in patientdb:
         if id == i["Patient ID"]:
@@ -86,7 +85,6 @@ def pcreate():
     else:
         print("user already exists")
         pcreate()
-
 def cdept():
     s= set()
     for i in doctordb:
@@ -108,7 +106,6 @@ def cdid(dept):
             return did
     else:
         return cdid(dept)
-
 def cday(dept,did):
     for i in doctordb:
         if i["Department"]==dept and i["Doctor ID"]==did:
@@ -138,8 +135,7 @@ def cday(dept,did):
                         return cday(dept,did)
                     
             else:
-                return cday(dept,did)
-            
+                return cday(dept,did)          
 def ctime(dept,did,day):
     for i in doctordb:
          if i["Department"]==dept and i["Doctor ID"]==did:
@@ -163,8 +159,7 @@ def ctime(dept,did,day):
                     else:
                         return ctime(dept,did,day)
             else:
-                return ctime(dept,did,day)   
-    
+                return ctime(dept,did,day)    
 def book(pid):
     print("welcome to swag hospitals")
     dept=cdept()
@@ -174,13 +169,11 @@ def book(pid):
     for i in doctordb:
         if i["Doctor ID"] == did:
             i["slots"][day].remove(time)
-            i["Appointment"].append({did:f"Appointment with {pid} on {day} at {time}"})
+            i["Appointment"].append({pid:f"Appointment with {pid} on {day} at {time}"})
     for i in patientdb:
         if i["Patient ID"]==pid:
             text={did:f"Appointment with {did} on {day} at {time}"}
             i["Appointment"].append(text)
-    
-
 def plogin():
     b,id =pcheck()
     if b == True :
@@ -199,7 +192,6 @@ def plogin():
                     print("enter the correct input")
     else:
         pcreate()
-
 def leave(id):
     for i in doctordb:
         if i["Doctor ID"] == id:
@@ -208,7 +200,6 @@ def leave(id):
             lv={"day":leaves,"reason":reason}
             i["leave"]=lv
             i["status"]="leave aproval"
-
 def pbookcheck(id):
     for i in doctordb:
         if i["Doctor ID"]==id:
@@ -229,7 +220,6 @@ def doclogin():
                     break
                 case _:
                     print("enter the correct input")
-
 def valid():
     print("valid")
     for i in patientdb:
@@ -239,8 +229,7 @@ def valid():
             if b == 'yes':
                 i["status"]="active"
             elif b== 'no':
-                print("first call and verify u moron")
-            
+                print("first call and verify u moron")          
 def checknewdoc(id):
     for i in doctordb:
         if i["Doctor ID"]==id:
@@ -252,7 +241,6 @@ def slots(day):
     for i in day:
         d[i]=input(f"{i} available timings ").lower().split()
     return d
-
 def add_doc():
     id = input("NEW DOCTOR ID : ")
     if checknewdoc(id):
@@ -276,7 +264,6 @@ def add_doc():
     else:
         print("ID already exits")
         add_doc()
-
 def leaveap():
     print("ADMIN LEAVE APROVAL FOR DOCTORS")
     for i in doctordb:
@@ -285,6 +272,8 @@ def leaveap():
             b=input(f"Do you want to aprove the leave for the {i['Name']}(Yes/No)").lower()
             if b=="yes":
                 i["status"]="leave"
+                for j in patientdb:
+                    j["Appointment"]["Doctor ID"]="cancled"
             elif b=="no":
                 i["status"]="active"
             else:
@@ -313,7 +302,6 @@ def adminlogin():
                     break
                 case _:
                     print("enter the correct input")
-
 print("welcome to hospital management system")
 while True: 
     print("1)Admin\n2)Customer\n3)Doctor\n4)exit")
