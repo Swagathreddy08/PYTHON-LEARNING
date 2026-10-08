@@ -1,4 +1,4 @@
-import reports,students,validation
+import reports,students,validation,data.__init__
 admin={"UID":"Admin","PSW":"Swag@2004","KEY":"DAD"}
 print("WELCOME TO STUDENT DATABASE MANAGEMENT SYSTEM")
 id=input("Enter your ID Mr.Admin")
@@ -18,9 +18,9 @@ for i in range(2):
             c=input("enter the choice")
             match c:
                 case "1":
-                    add()
+                    students.add()
                 case "2":
-                    update()
+                    students.update()
                 case "3":
                     delete()
                 case "4":
