@@ -1,4 +1,4 @@
-import reports,validation
+import validation
 from data import student
 def add():
     id=input("enter the id")
@@ -80,8 +80,35 @@ def updateof():
                    for i in student:
                         if i["uid"]==id:
                             print(i["marks"].keys())
-                            sub=("enter a subject : ")
-                            1["marks"][sub]=input(f"enter the marks of {sub}: ")
+                            sub=input("enter a subject : ")
+                            if sub in i["marks"]:
+                                i["marks"][sub]=input(f"enter the marks of {sub}: ")
+                            else:
+                                 print("Invalid Subject")                         
+                            break
+                
+
+def delete():
+    id=input("enter the id")
+    b=validation.addv(id)
+    if b:
+        for i in student:
+            if i["uid"]==id:
+                print(i)
+                student.remove(i)
+    else:
+        print("user doesnot exists")
+
+def search():
+    id=input("enter the id")
+    b=validation.addv(id)
+    if b:
+        for i in student:
+            if i["uid"]==id:
+                print(i)
+    else:
+        print("User doesnot Exists")  
+                            
                             
 
                    

@@ -20,15 +20,15 @@ for i in range(2):
                 case "1":
                     students.add()
                 case "2":
-                    students.update()
+                    students.updateof()
                 case "3":
-                    delete()
+                    students.delete()
                 case "4":
-                    search()
+                    students.search()
                 case "5":
-                    report()
-                case "6":
-                    allstd()
+                    reports.rep()
+                case "6":   
+                    reports.allstd()
                 case "7":
                     break
                 case _:
