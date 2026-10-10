@@ -1,0 +1,28 @@
+[
+    {
+        "uid": "110",
+        "name": "swagath",
+        "class": 2,
+        "teacher": "ravi",
+        "marks": {
+            "Maths": 39,
+            "Science": 99,
+            "English": 49,
+            "Telugu": 93,
+            "Social": 88
+        }
+    },
+    {
+        "uid": "001",
+        "name": "Swagath",
+        "class": 2,
+        "teacher": "Ravi",
+        "marks": {
+            "Maths": 88,
+            "Science": 99,
+            "English": 29,
+            "Telugu": 77,
+            "Social": 46
+        }
+    }
+]

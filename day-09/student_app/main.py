@@ -1,4 +1,7 @@
-import reports,students,validation,data.__init__
+import reports,students
+import json
+from pathlib import Path
+from data import*
 admin={"UID":"Admin","PSW":"Swag@2004","KEY":"DAD"}
 print("WELCOME TO STUDENT DATABASE MANAGEMENT SYSTEM")
 id=input("Enter your ID Mr.Admin")
@@ -14,7 +17,8 @@ for i in range(2):
             print("4. Search Student")
             print("5. Generate Report")
             print("6. Display All Students")
-            print("7. Exit")
+            print("7. Update the data base")
+            print("8. Exit")
             c=input("enter the choice")
             match c:
                 case "1":
@@ -30,6 +34,14 @@ for i in range(2):
                 case "6":   
                     reports.allstd()
                 case "7":
+                        file_path = Path(__file__).parent / "student.json"
+
+                        with open(file_path, "w", encoding="utf-8") as file:
+                            json.dump(student, file, indent=4)
+
+                        print("Saved data:", student)
+                        print("Database updated successfully!")
+                case "8":
                     break
                 case _:
                     print("WRONG INPUT FORM THE USER")
