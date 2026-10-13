@@ -7,3 +7,5 @@ def submit_claim(amount, has_receipt):
         raise ClaimError("claim amount must be positive")
     if amount > 1000 and not has_receipt:
         raise ReceiptRequiredError("a receipt is required above 1000")
+    else:
+        pass
