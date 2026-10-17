@@ -1,4 +1,9 @@
 import json
+from pathlib import Path
+
+PATIENT_DB = Path(__file__).with_name("pat.json")
+
+
 def vadmin():
     uid=input("ID : ")
     psw=input("password : ")
@@ -23,8 +28,7 @@ def vdoc ():
 def vpat ():
     uid=input("ID : ")
     psw=input("password : ")
-    k=0
-    with open ("projects/Hospital ERP/pat.json","r") as file2:
+    with PATIENT_DB.open("r", encoding="utf-8") as file2:
         data=json.load(file2)
     for i in data:
         if i["uid"]==uid and i["psw"]==psw:
@@ -32,11 +36,11 @@ def vpat ():
     else:
         return False
 
-def vcpat(id):
-    with open ("projects/Hospital ERP/pat.json","r") as file2:
+def vcpat(patient_id):
+    with PATIENT_DB.open("r", encoding="utf-8") as file2:
         data=json.load(file2)
     for i in data:
-        if id == i["uid"]:
+        if patient_id == i["uid"]:
             return  True
     else:
         return False

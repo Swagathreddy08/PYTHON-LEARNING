@@ -1,6 +1,11 @@
+import json
+
 from valid import *
 from create import *
 from menu import *
+
+PATIENT_DB = __import__("pathlib").Path(__file__).with_name("pat.json")
+
 print("WELCOME TO HOSPITAL MANAGEMENT SYSTEM")
 print("Choose a option to select ")
 while True:
@@ -30,13 +35,21 @@ while True:
                 mpat()
             elif b==False:
                 print("Patient Doesnot Exists")
-                id=input("Enter the ID to create")
-                if vcpat(id):
-                    patient=pcreate(id)
-                    with open ("projects/Hospital ERP/pat.json","w") as file2:
-                        json.load(patient)
-                else:
+                patient_id = input("Enter the ID to create")
+                if vcpat(patient_id):
                     print("user already exists")
+                else:
+                    patient = pcreate(patient_id)
+                    with PATIENT_DB.open("r") as file2:
+                        patients = json.load(file2)
+                    patients.append({
+                        "uid": patient.id,
+                        "psw": patient.psw,
+                        "name": patient.name,
+                        "ref": patient.ref,
+                    })
+                    with PATIENT_DB.open("w") as file2:
+                        json.dump(patients, file2, indent=2)
+                    print("Patient created")
         case _:
             print("Enter a proper choice ")
-
