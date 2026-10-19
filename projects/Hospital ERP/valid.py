@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 PATIENT_DB = Path(__file__).with_name("pat.json")
-
+DOCTOR_DB = Path(__file__).with_name("doc.json")
 
 def vadmin():
     uid=input("ID : ")
@@ -31,16 +31,27 @@ def vpat ():
     with PATIENT_DB.open("r", encoding="utf-8") as file2:
         data=json.load(file2)
     for i in data:
-        if i["uid"]==uid and i["psw"]==psw:
+        if i["uid"]==uid and i["psw"]==psw and i["Status"]=="active":
             return True
+        elif i["uid"]==uid and i["psw"]==psw and i["Status"]=="inactive":
+            return "PARTIAL"
     else:
         return False
 
 def vcpat(patient_id):
-    with PATIENT_DB.open("r", encoding="utf-8") as file2:
+    with PATIENT_DB.open("r") as file2:
         data=json.load(file2)
     for i in data:
         if patient_id == i["uid"]:
+            return  True
+    else:
+        return False
+
+def vcdoc(Doctor_id):
+    with DOCTOR_DB.open("r") as file2:
+        data=json.load(file2)
+    for i in data:
+        if  Doctor_id == i["uid"]:
             return  True
     else:
         return False

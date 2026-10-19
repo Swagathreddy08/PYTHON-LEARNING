@@ -1,11 +1,10 @@
 import json
-
+from pathlib import *
 from valid import *
 from create import *
 from menu import *
 
-PATIENT_DB = __import__("pathlib").Path(__file__).with_name("pat.json")
-
+PATIENT_DB = Path(__file__).with_name("pat.json")
 print("WELCOME TO HOSPITAL MANAGEMENT SYSTEM")
 print("Choose a option to select ")
 while True:
@@ -30,9 +29,11 @@ while True:
                 print("Doctor Doesnot Exists")
                 pass
         case "3":
-            b=vpat()
+            b =vpat()
             if b==True:
                 mpat()
+            elif b=="PARTIAL":
+                print("Patient is not still active by the user let management call you")
             elif b==False:
                 print("Patient Doesnot Exists")
                 patient_id = input("Enter the ID to create")
@@ -47,6 +48,9 @@ while True:
                         "psw": patient.psw,
                         "name": patient.name,
                         "ref": patient.ref,
+                        "phno": patient.num,
+                        "address": patient.add,
+                        "Status": "Inactive"
                     })
                     with PATIENT_DB.open("w") as file2:
                         json.dump(patients, file2, indent=2)

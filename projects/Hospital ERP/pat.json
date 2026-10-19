@@ -1,6 +1,12 @@
 [
   {
     "uid": "ADMIN01",
-    "psw": "Swag@2004"
+    "psw": "Swag@2004",
+    "Status": "Inactive"
+  },
+  {
+    "uid": "ADMIN02",
+    "psw": "Swag@2004",
+    "Status": "active"
   }
 ]
