@@ -30,11 +30,11 @@ while True:
                 pass
         case "3":
             b =vpat()
-            if b==True:
+            if b=="true":
                 mpat()
-            elif b=="PARTIAL":
+            elif b=="ptrue":
                 print("Patient is not still active by the user let management call you")
-            elif b==False:
+            elif b=="false":
                 print("Patient Doesnot Exists")
                 patient_id = input("Enter the ID to create")
                 if vcpat(patient_id):
