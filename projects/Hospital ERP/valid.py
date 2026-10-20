@@ -31,10 +31,8 @@ def vpat ():
     with PATIENT_DB.open("r", encoding="utf-8") as file2:
         data=json.load(file2)
     for i in data:
-        if i["uid"]==uid and i["psw"]==psw and i["Status"]=="active":
+        if i["uid"]==uid and i["psw"]==psw and i["Status"]=="active" :
             return True
-        elif i["uid"]==uid and i["psw"]==psw and i["Status"]=="inactive":
-            return "PARTIAL"
     else:
         return False
 

@@ -1,10 +1,13 @@
 import json
-from pathlib import *
-from create import *
+from pathlib import Path
+
+from create import acreate, dcreate
 
 DOCTOR_DB = Path(__file__).with_name("doc.json")
 ADMIN_DB = Path(__file__).with_name("admin.json")
-PATIENT_DB=Path(__file__).with_name("pat.json")
+PATIENT_DB = Path(__file__).with_name("pat.json")
+
+
 def madmin():
     while True:
         ch=input('''
@@ -19,64 +22,105 @@ def madmin():
         match ch:
             case "1":
                 doctor_id = input("Enter the ID to create")
-                if vcdoc(doctor_id):
+                with DOCTOR_DB.open("r", encoding="utf-8") as file:
+                    doctors = json.load(file)
+                if any(record.get("uid") == doctor_id for record in doctors):
                     print("user already exists")
                 else:
-                    patient = dcreate(doctor_id)
-                    with DOCTOR_DB.open("r") as file2:
-                        Doctor = json.load(file2)
-                    Doctor.append({
-                                        "uid": patient.id,
-                                        "psw": patient.psw,
-                                        "name": patient.name,
-                                        "ref": patient.ref,
-                                        "phno": patient.num,
-                                        "address": patient.add
-                                    })
-                    with DOCTOR_DB.open("w") as file2:
-                        json.dump(Doctor, file2, indent=2)
-                    print("Patient created")
+                    doctor = dcreate(doctor_id)
+                    doctors.append({
+                        "uid": doctor.id,
+                        "psw": doctor.psw,
+                        "name": doctor.name,
+                        "branch": doctor.branch,
+                        "phno": doctor.num,
+                        "address": doctor.add
+                    })
+                    with DOCTOR_DB.open("w", encoding="utf-8") as file:
+                        json.dump(doctors, file, indent=2)
+                    print("Doctor created")
             case "2":
-                with PATIENT_DB.open("r") as file2:
-                    patient=json.load(file2)
-                for i in patient:
-                    if i["status"]=="inactive":
-                        print(i)
+                with PATIENT_DB.open("r", encoding="utf-8") as file:
+                    patients = json.load(file)
+                pending_patients = False
+                for patient in patients:
+                    if patient.get("Status", patient.get("status", "")).lower() == "inactive":
+                        pending_patients = True
+                        print(patient)
                         reply=input("Did you call and verify the Patient ? ( Yes / No ): ").lower()
                         if reply == "yes":
-                            i["status"]="active"
+                            patient["Status"] = "active"
+                            if "status" in patient:
+                                patient["status"] = "active"
                             print("The patient is active ")
                         elif reply == "no":
                             print("verify first and come back ")
                         else:
                             print("Wrong Input")
+                if pending_patients:
+                    with PATIENT_DB.open("w", encoding="utf-8") as file:
+                        json.dump(patients, file, indent=2)
                 else:
                     print("All the patients are verified and active ")
                 
             case "3":
                 print("leave request")
             case "4":
-                print("ALL details")
+                print("Hospital Report")
+                print("DOCTOR REPORTS")
+                with DOCTOR_DB.open("r", encoding="utf-8") as file:
+                    doctors = json.load(file)
+                for doctor in doctors:
+                    print(f'''
+                    NAME: {doctor.get("name")}
+                    Branch : {doctor.get("branch")}
+                    Phno : {doctor.get("phno")}
+                    ''')
+                    print("\n")
+                with PATIENT_DB.open("r", encoding="utf-8") as file:
+                    patient = json.load(file)
+                for pat in patient:
+                    print(f'''
+                    NAME: {pat.get("name")}
+                    Branch : {pat.get("branch")}
+                    Phno : {pat.get("phno")}
+                    ''')
+                    print("\n")
+                    
+                    
             case "5":
-                print("Remove doctor")
+                id2=input("enter the id to delete : ")
+                with DOCTOR_DB.open("r", encoding="utf-8") as file:
+                    doctors = json.load(file)
+                for doctor in doctors:
+                    if doctor["uid"] == id2:
+                        doctors.remove(doctor)
+                        with DOCTOR_DB.open("w", encoding="utf-8") as file:
+                            json.dump(doctors, file, indent=2)
+                        print("Doctor successfully removed")
+                        break
+                else:
+                    print("DOCTOR ID DOESNOT EXISTS IN THE DATABASE")
             case "6":
                 print("New admin")
                 admin_id = input("Enter the ID to create")
-                if vcdoc(admin_id):
+                with ADMIN_DB.open("r", encoding="utf-8") as file:
+                    admins = json.load(file)
+                with DOCTOR_DB.open("r", encoding="utf-8") as file:
+                    doctors = json.load(file)
+                if any(record.get("uid") == admin_id for record in admins + doctors):
                     print("user already exists")
                 else:
-                    patient = acreate(admin_id)
-                    with ADMIN_DB.open("r") as file2:
-                        ADMINS = json.load(file2)
-                    ADMINS.append({
-                                        "uid": patient.id,
-                                        "psw": patient.psw,
-                                        "name": patient.name,
-                                        "phno": patient.num,
-                                        "address": patient.add
-                                    })
-                    with ADMIN_DB.open("w") as file2:
-                        json.dump(ADMINS, file2, indent=2)
+                    admin = acreate(admin_id)
+                    admins.append({
+                        "uid": admin.id,
+                        "psw": admin.psw,
+                        "name": admin.name,
+                        "phno": admin.num,
+                        "address": admin.add
+                    })
+                    with ADMIN_DB.open("w", encoding="utf-8") as file:
+                        json.dump(admins, file, indent=2)
                     print("Admin created")
             case "7":
                 break
