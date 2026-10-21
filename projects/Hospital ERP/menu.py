@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import datetime
 
 from create import acreate, dcreate
 
@@ -22,7 +23,7 @@ def madmin():
         match ch:
             case "1":
                 doctor_id = input("Enter the ID to create")
-                with DOCTOR_DB.open("r", encoding="utf-8") as file:
+                with DOCTOR_DB.open("r") as file:
                     doctors = json.load(file)
                 if any(record.get("uid") == doctor_id for record in doctors):
                     print("user already exists")
@@ -36,11 +37,11 @@ def madmin():
                         "phno": doctor.num,
                         "address": doctor.add
                     })
-                    with DOCTOR_DB.open("w", encoding="utf-8") as file:
+                    with DOCTOR_DB.open("w") as file:
                         json.dump(doctors, file, indent=2)
                     print("Doctor created")
             case "2":
-                with PATIENT_DB.open("r", encoding="utf-8") as file:
+                with PATIENT_DB.open("r") as file:
                     patients = json.load(file)
                 pending_patients = False
                 for patient in patients:
@@ -58,7 +59,7 @@ def madmin():
                         else:
                             print("Wrong Input")
                 if pending_patients:
-                    with PATIENT_DB.open("w", encoding="utf-8") as file:
+                    with PATIENT_DB.open("w") as file:
                         json.dump(patients, file, indent=2)
                 else:
                     print("All the patients are verified and active ")
@@ -68,7 +69,7 @@ def madmin():
             case "4":
                 print("Hospital Report")
                 print("DOCTOR REPORTS")
-                with DOCTOR_DB.open("r", encoding="utf-8") as file:
+                with DOCTOR_DB.open("r")as file:
                     doctors = json.load(file)
                 for doctor in doctors:
                     print(f'''
@@ -77,7 +78,7 @@ def madmin():
                     Phno : {doctor.get("phno")}
                     ''')
                     print("\n")
-                with PATIENT_DB.open("r", encoding="utf-8") as file:
+                with PATIENT_DB.open("r") as file:
                     patient = json.load(file)
                 for pat in patient:
                     print(f'''
@@ -90,12 +91,12 @@ def madmin():
                     
             case "5":
                 id2=input("enter the id to delete : ")
-                with DOCTOR_DB.open("r", encoding="utf-8") as file:
+                with DOCTOR_DB.open("r") as file:
                     doctors = json.load(file)
                 for doctor in doctors:
                     if doctor["uid"] == id2:
                         doctors.remove(doctor)
-                        with DOCTOR_DB.open("w", encoding="utf-8") as file:
+                        with DOCTOR_DB.open("w") as file:
                             json.dump(doctors, file, indent=2)
                         print("Doctor successfully removed")
                         break
@@ -104,9 +105,9 @@ def madmin():
             case "6":
                 print("New admin")
                 admin_id = input("Enter the ID to create")
-                with ADMIN_DB.open("r", encoding="utf-8") as file:
+                with ADMIN_DB.open("r") as file:
                     admins = json.load(file)
-                with DOCTOR_DB.open("r", encoding="utf-8") as file:
+                with DOCTOR_DB.open("r") as file:
                     doctors = json.load(file)
                 if any(record.get("uid") == admin_id for record in admins + doctors):
                     print("user already exists")
@@ -119,7 +120,7 @@ def madmin():
                         "phno": admin.num,
                         "address": admin.add
                     })
-                    with ADMIN_DB.open("w", encoding="utf-8") as file:
+                    with ADMIN_DB.open("w") as file:
                         json.dump(admins, file, indent=2)
                     print("Admin created")
             case "7":
@@ -137,7 +138,13 @@ def mdoc():
             case "1":
                 print("view appointments")
             case "2":
-                print("Leave request")
+                print("Hello Doctor this is a leave request application")
+                try:
+                    date=input("Enter leave date (YYYY-MM-DD): ")
+                    x = datetime.datetime.strptime(date, "%Y-%m-%d")
+                    print(f"{x.strftime("%Y-%m-%d")} : {x.strftime("%A")}")
+                except ValueError as val:
+                    print("WONG INPUT TRY AGAIÑN")
             case "3":
                 break
             case _ :
@@ -146,8 +153,19 @@ def mdoc():
 def mpat():
     while True:
         ch=input('''
-1)Book Appointment
-2)Medical History
-3)Appointment 
-4)Logout
-''')
+        1)Book Appointment
+        2)Medical History
+        3)Appointment 
+        4)Logout
+        ''')
+        match ch:
+                    case "1":
+                        print("Book appointments")
+                    case "2":
+                        print("Medical History")
+                    case "3":
+                        print("Appointment")
+                    case "4":
+                        break
+                    case _ :
+                        print("wrong input")
