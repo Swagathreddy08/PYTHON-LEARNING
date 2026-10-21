@@ -140,9 +140,18 @@ def mdoc():
             case "2":
                 print("Hello Doctor this is a leave request application")
                 try:
+                    id=input('Doctor id : ')
                     date=input("Enter leave date (YYYY-MM-DD): ")
                     x = datetime.datetime.strptime(date, "%Y-%m-%d")
-                    print(f"{x.strftime("%Y-%m-%d")} : {x.strftime("%A")}")
+                    print()
+                    with DOCTOR_DB.open("r") as file:
+                        doctors = json.load(file)
+                    for record in doctors:
+                        if record.get("uid") == id :    
+                            record["Leave"]=(f"{x.strftime("%Y-%m-%d")} : {x.strftime("%A")}")
+                            record["Leave Status"]="Waiting"
+                        with DOCTOR_DB.open("w") as file:
+                            json.dump(doctors, file, indent=2)
                 except ValueError as val:
                     print("WONG INPUT TRY AGAIÑN")
             case "3":

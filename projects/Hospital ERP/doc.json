@@ -1,10 +1,12 @@
 [
-    {
-                                        "uid": "DOC01",
-                                        "psw": "Doc@2004",
-                                        "name": "Ram",
-                                        "branch": "HYDERABAD",
-                                        "phno": "8179524481",
-                                        "address": "Vidhyanagar Hyderabad"
-                                    }
+  {
+    "uid": "DOC01",
+    "psw": "Doc@2004",
+    "name": "Ram",
+    "branch": "HYDERABAD",
+    "phno": "8179524481",
+    "address": "Vidhyanagar Hyderabad",
+    "Leave": "2004-01-29 : Thursday",
+    "Leave Status": "Waiting"
+  }
 ]
