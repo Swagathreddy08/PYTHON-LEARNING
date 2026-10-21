@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-import datetime
+from datetime import *
 
 from create import acreate, dcreate
 
@@ -142,7 +142,7 @@ def mdoc():
                 try:
                     id=input('Doctor id : ')
                     date=input("Enter leave date (YYYY-MM-DD): ")
-                    x = datetime.datetime.strptime(date, "%Y-%m-%d")
+                    x = datetime.strptime(date, "%Y-%m-%d")
                     print()
                     with DOCTOR_DB.open("r") as file:
                         doctors = json.load(file)
@@ -150,10 +150,12 @@ def mdoc():
                         if record.get("uid") == id :    
                             record["Leave"]=(f"{x.strftime("%Y-%m-%d")} : {x.strftime("%A")}")
                             record["Leave Status"]="Waiting"
-                        with DOCTOR_DB.open("w") as file:
-                            json.dump(doctors, file, indent=2)
+                            with DOCTOR_DB.open("w") as file:
+                                json.dump(doctors, file, indent=2)
+                        else:
+                            print("doctor doesnot exists")
                 except ValueError as val:
-                    print("WONG INPUT TRY AGAIÑN")
+                    print("WONG INPUT TRY AGAIN")
             case "3":
                 break
             case _ :
