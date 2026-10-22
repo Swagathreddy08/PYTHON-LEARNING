@@ -193,7 +193,22 @@ def mpat():
         ''')
         match ch:
                     case "1":
-                        print("Book appointments")
+                        print("Hello dear patient welcome to appoint booking")
+                        with DOCTOR_DB.open("r") as file:
+                            doctors = json.load(file)
+                        x=input('''Departments Avalilable
+                        1)cardiology
+                        2)ent
+                        3)general physician
+                        4)neurology
+                        ''')
+                        match x:
+                            case "1":
+                                for rec in doctors:
+                                    if rec.get("dept")=="Cardiology" :
+                                        print(f"{rec.get("uid")} : {rec.get("name")} : {rec.get("dept")} : {rec.get("breanch")}")
+                                    id2=input("Enter the doctor id")
+
                     case "2":
                         print("Medical History")
                     case "3":
