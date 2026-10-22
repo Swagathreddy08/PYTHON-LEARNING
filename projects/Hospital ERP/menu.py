@@ -65,7 +65,28 @@ def madmin():
                     print("All the patients are verified and active ")
                 
             case "3":
-                print("leave request")
+                with DOCTOR_DB.open("r") as file:
+                    doctors = json.load(file)
+                for record in doctors:
+                    if record.get("Leave Status") == "Waiting":
+                        print(record.get("uid"))
+                        print(record.get("Leave"))
+                        print(record.get("Reason"))
+                        responce=input("Do you want to accept the leave request (YES/NO)").lower()
+                        if responce =="yes":
+                            record["Leave Status"]="Accepted"
+                            record.pop("Reason")
+                            with DOCTOR_DB.open("w") as file:
+                                json.dump(doctors, file, indent=2)
+                        elif responce== "no":
+                            print("THE leave will be rejected")
+                            record["Leave Status"]= "Rejected"
+                            record.pop("Leave")
+                            record.pop("Reason")
+                            with DOCTOR_DB.open("w") as file:
+                                json.dump(doctors, file, indent=2)
+                        else:
+                            print("wrong input")
             case "4":
                 print("Hospital Report")
                 print("DOCTOR REPORTS")
@@ -150,6 +171,7 @@ def mdoc():
                         if record.get("uid") == id :    
                             record["Leave"]=(f"{x.strftime("%Y-%m-%d")} : {x.strftime("%A")}")
                             record["Leave Status"]="Waiting"
+                            record["Reason"]=input("Enter the leave reason")
                             with DOCTOR_DB.open("w") as file:
                                 json.dump(doctors, file, indent=2)
                         else:
