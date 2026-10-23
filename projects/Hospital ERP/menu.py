@@ -208,6 +208,7 @@ def mpat():
                                     if rec.get("dept")=="Cardiology" :
                                         print(f"{rec.get("uid")} : {rec.get("name")} : {rec.get("dept")} : {rec.get("breanch")}")
                                     id2=input("Enter the doctor id")
+                                print("hi")                                    
 
                     case "2":
                         print("Medical History")
