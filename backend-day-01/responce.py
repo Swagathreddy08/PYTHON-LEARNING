@@ -47,7 +47,5 @@ def get_patient(patient_id: int):
             status_code=404,
             detail="Patient not found"
         )
-
     patient = patients[patient_id]
-
     return patient
