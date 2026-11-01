@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel,Field
 import json
 from pathlib import Path
+
 app=FastAPI()
 DOCTOR_DB = Path(__file__).with_name("doc.json")
 

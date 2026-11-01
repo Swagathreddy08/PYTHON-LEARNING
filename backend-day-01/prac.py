@@ -5,10 +5,10 @@ from pathlib import Path
 app=FastAPI()
 
 class docdisplay(BaseModel):
-    id:str
-    Name:str
+    id:str= Field(validation_alias="uid")
+    Name:str= Field(validation_alias="name")
     age:int
-    number:str
+    number:str= Field(validation_alias="phno")
     address:str
 
 class doc_cr(BaseModel):
@@ -29,32 +29,27 @@ class docUpdate(BaseModel):
     phno: str
     address: str
 
-doctors_DB=Path(__file__).with_name("doc.json")
+DOCTOR_DB=Path(__file__).with_name("doc.json")
 @app.get("/GET_Doc_Details/{doc_id}", response_model=docdisplay)
 def display(doc_id : str):
-    with open (doctors_DB,"r") as file:
+    with open (DOCTOR_DB,"r") as file:
         doctors = json.load(file)
-    if doctors is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Patient not found in the database"
-        )
+    if doc_id in doctors:
+        return doctors[doc_id]
     else:
-        if doc_id in doctors:
-            return doctors[doc_id]
-        else:
             raise HTTPException(
                 status_code=404,
                 detail="Patient not found"
             )
+        
 
 @app.post("/Doc_Create")
 def create(doctor:doc_cr):
-    with open (doctors_DB,"r") as file:
+    with open (DOCTOR_DB,"r") as file:
         doctors = json.load(file)
     if doctor.uid not in doctors:
         doctors[doctor.uid]= doctor.model_dump()
-        with open (doctor_DB,"w") as file:
+        with open (DOCTOR_DB,"w") as file:
             json.dump(doctors,file)
         return {
                 "message": "Doctor created successfully",
@@ -68,13 +63,13 @@ def create(doctor:doc_cr):
 
 
 @app.put("/patients/{doc_id}")
-def update_patient( doc_id: int, patient: docUpdate):
-    with open (doctors_DB,"r") as file:
+def update_patient( doc_id: str, patient: docUpdate):
+    with open (DOCTOR_DB,"r") as file:
         doctors = json.load(file)
     if doc_id in doctors: 
-        updated_doc: patient.model_dump()
-        doctors[doc_id]=updated_doc
-        with open ("doctor_DB","w") as file:
+        updated_doc= patient.model_dump()
+        doctors[doc_id].update(updated_doc)
+        with open (DOCTOR_DB,"w") as file:
             json.dump(doctors,file)
         return {
             "message": "Doctor updated successfully",
