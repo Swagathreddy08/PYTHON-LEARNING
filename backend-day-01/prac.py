@@ -29,10 +29,10 @@ class docUpdate(BaseModel):
     phno: str
     address: str
 
-DOCTOR_DB=Path(__file__).with_name("doc.json")
+doctor_DB=Path(__file__).with_name("doc.json")
 @app.get("/GET_Doc_Details/{doc_id}", response_model=docdisplay)
 def display(doc_id : str):
-    with open (DOCTOR_DB,"r") as file:
+    with open (doctor_DB,"r") as file:
         doctors = json.load(file)
     if doc_id in doctors:
         return doctors[doc_id]
@@ -45,11 +45,11 @@ def display(doc_id : str):
 
 @app.post("/Doc_Create")
 def create(doctor:doc_cr):
-    with open (DOCTOR_DB,"r") as file:
+    with open (doctor_DB,"r") as file:
         doctors = json.load(file)
     if doctor.uid not in doctors:
         doctors[doctor.uid]= doctor.model_dump()
-        with open (DOCTOR_DB,"w") as file:
+        with open (doctor_DB,"w") as file:
             json.dump(doctors,file)
         return {
                 "message": "Doctor created successfully",
@@ -64,12 +64,12 @@ def create(doctor:doc_cr):
 
 @app.put("/patients/{doc_id}")
 def update_patient( doc_id: str, patient: docUpdate):
-    with open (DOCTOR_DB,"r") as file:
+    with open (doctor_DB,"r") as file:
         doctors = json.load(file)
     if doc_id in doctors: 
         updated_doc= patient.model_dump()
         doctors[doc_id].update(updated_doc)
-        with open (DOCTOR_DB,"w") as file:
+        with open (doctor_DB,"w") as file:
             json.dump(doctors,file)
         return {
             "message": "Doctor updated successfully",
