@@ -42,7 +42,7 @@ def display(doc_id : str):
                 detail="Patient not found"
             )
         
-
+    
 @app.post("/Doc_Create")
 def create(doctor:doc_cr):
     with open (doctor_DB,"r") as file:
